@@ -2,6 +2,7 @@
 // #include <string.h>
 
 //GDS = Graph Data Structure (either matrix or list)
+// create gds here
 
 // function to read, and process .txt file into graph representation (list or matrix)
 // change void later to idk Graph return type so its reusable in main
