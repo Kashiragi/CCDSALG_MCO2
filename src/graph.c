@@ -1,3 +1,8 @@
+/**
+ * @author Saguin
+ * @checker pls check
+ */
+
 //GDS = Graph Data Structure (either matrix or list)
 // create gds here
 // linked list
