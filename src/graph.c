@@ -106,6 +106,7 @@ void printGraph(pGraph graph){
             // printf("| %s->", curvertex->name);
             curvertex = curvertex->next;
         }
+        printf("\\");
         curhead = curhead->nextHead;
     }
 }
