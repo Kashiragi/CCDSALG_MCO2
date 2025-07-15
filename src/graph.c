@@ -30,7 +30,11 @@ pHead addHead(pGraph graph, char* vertexName){
   
     assert(strcpy(newHead->name, vertexName));
     // assert(newHead->name[strlen(newHead->name)-1] = '\0');
-    assert((newHead->nextHead = NULL)==0);
+    newHead->nextHead = NULL;
+    newHead->list = NULL;
+
+    // printf("HEAD added: %s", newHead->name);
+
     if(graph->heads == NULL) {
         graph->heads = newHead;
         printf("Head added");
@@ -42,7 +46,8 @@ pHead addHead(pGraph graph, char* vertexName){
         
         c->nextHead = newHead;
     }
-    printf("%s:", newHead->name);
+    // printf("%s:", newHead->name);
+
     return newHead;
 }
 
@@ -51,6 +56,8 @@ pGraph gcreate(int V){
     assert(graph->nV = V);
     assert(graph->heads = malloc(V*sizeof(struct ALIST_VERTEX*)));
 
+    graph->heads = NULL;
+
     printf("Graph created");
     return graph;
 }
@@ -58,8 +65,9 @@ pGraph gcreate(int V){
 void addAdjacent(pHead head, char* neighbor){
     pVertex newVertex = malloc(sizeof(struct ALIST_VERTEX));
     assert(strcpy(newVertex->name, neighbor));
-    assert(newVertex->name[MAX_ID_LEN] = '\0');
-    
+    // assert(newVertex->name[MAX_ID_LEN] = '\0');
+    newVertex->next = NULL;
+
     if(head->list == NULL) head->list = newVertex;
     else{
         pVertex c = head->list;
@@ -93,9 +101,9 @@ void printGraph(pGraph graph){
     pVertex curvertex = curhead->list;
     while(curhead!=NULL){
         printf("test");
-        printf("%s", curhead->name);
+        // printf("~~%s ->", curhead->name);
         while(curvertex!=NULL){
-            printf("%s", curvertex->name);
+            // printf("| %s->", curvertex->name);
             curvertex = curvertex->next;
         }
         curhead = curhead->nextHead;
@@ -105,9 +113,8 @@ void printGraph(pGraph graph){
 int main(){
 
     pGraph graph = gcreate(4);
-    pHead head = findHead(graph, "Diana");
-
-    if(!head) head = addHead(graph, "Diana");
+    pHead head = addHead(graph, "Diana");
+    printf("HEAD IN MAIND: %s", head->name);
     addAdjacent(head, "Kurt");
 
     printGraph(graph);
