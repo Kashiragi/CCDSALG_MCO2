@@ -50,6 +50,7 @@ pHead addHead(pGraph graph, char* vertexName){
         while(c->nextHead!=NULL) c = c->nextHead;
         
         c->nextHead = newHead;
+        printf("Head added");
     }
     // printf("%s:", newHead->name);
 
@@ -90,12 +91,15 @@ pHead findHead(pGraph GDS, char* name){
         current = current->nextHead;
 
         if(current == NULL) {
-            flag=0;
             printf("Head in this graph with name \"%s\" not found", name);
+            flag=0;
+        }
+        else{
+            printf("Head found: %s", current->name);
+            flag = 0;
         }
     }
 
-    printf("Head found: %s", current->name);
     return current;
 }
 
@@ -109,8 +113,10 @@ pVertex findAdjacent(pHead headName, char* name){
             flag=0;
             printf("Adjacent of this head with name \"%s\" not found", name);
         }
+        else {
+            printf("Adj Found: %s", current->name);
+        }
     }
-    printf("Adj Found: %s", current->name);
     return current;
     
     
@@ -143,6 +149,8 @@ int main(){
     addAdjacent(head, "Bruce");
     addAdjacent(head, "Clark");
     addAdjacent(head2, "Diana");
+
+    pHead check = findHead(graph, "Clark");
 
     printGraph(graph);
 
