@@ -142,18 +142,18 @@ void printGraph(pGraph graph){
     }
 }
 
-int main(){
+// int main(){
 
-    pGraph graph = gcreate(4);
-    pHead head = addHead(graph, "Diana");
-    pHead head2 = addHead(graph, "Bruce");
+//     pGraph graph = gcreate(4);
+//     pHead head = addHead(graph, "Diana");
+//     pHead head2 = addHead(graph, "Bruce");
 
-    addAdjacent(head, "Hal");
-    addAdjacent(head, "Bruce");
-    addAdjacent(head, "Clark");
-    addAdjacent(head2, "Diana");
-    addAdjacent(head2, "Diana");
+//     addAdjacent(head, "Hal");
+//     addAdjacent(head, "Bruce");
+//     addAdjacent(head, "Clark");
+//     addAdjacent(head2, "Diana");
+//     addAdjacent(head2, "Diana");
 
-    printGraph(graph);
+//     printGraph(graph);
 
-}
+// }
