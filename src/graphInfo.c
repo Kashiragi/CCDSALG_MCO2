@@ -1,6 +1,6 @@
 // contains code related to graph
 // #include <string.h>
-// #include "graph.c"
+#include "graph.c"
 
 
 // function to read, and process .txt file into graph representation (list or matrix)
@@ -66,8 +66,8 @@ void toTxt3AdjList(char out_filename[], GDS){
     */
 
 }
-
-void toTxt4AdjMatrix(char out_filename[], GDS){
+//@author Kei
+void toTxt4AdjMatrix(char out_filename[], pGraph g){
     /*
         G-MATRIX.TXT contains
                 Diana Bruce Hal Clark
@@ -75,5 +75,18 @@ void toTxt4AdjMatrix(char out_filename[], GDS){
         Bruce   1     0     0   0
         Hal     1     0     0   1
         Clark   1     0     1   0
+
+        Diana->Hal->Bruce->Clark->\
+        Bruce->Diana->\
+        Hal->Clark->Diana->\
+        Clark->Hal->Diana->\
     */
+    pHead curHead = g->heads;
+    pVertex curVertex;
+    int size = g->nV,i = 0, j = 0;
+    int adjMatrix[g->nV];
+    while (curHead!=NULL){
+        curVertex = curHead->list;
+        f
+    }
 }
