@@ -30,24 +30,29 @@ typedef struct UDGRAPH{
     pHead heads;
 } *pGraph;
 
-pHead findHead(pGraph GDS, char* name){
+pHead findHead(pGraph GDS, char* name, int *index){
     pGraph g = GDS;
+    int i = 0;
     pHead current = g->heads;
     while(current!=NULL){
         if(strcmp(current->name,name)==0){
             printf("Head found: %s", current->name);
+            *index = i;  // Set the value that index points to
             return current;
         }
         current = current->nextHead;
+        i++;
     }
     printf("Head in this graph with name \"%s\" not found", name);
+    *index = -1;
     return NULL;
 
     
 }
 
 pHead addHead(pGraph graph, char* vertexName){
-    if(findHead(graph, vertexName)==NULL){
+    int index;
+    if(findHead(graph, vertexName, &index)==NULL){
         pHead newHead = malloc(sizeof(struct HEAD_VERTEX));
     
         assert(strcpy(newHead->name, vertexName));
@@ -143,11 +148,12 @@ void printGraph(pGraph graph){
 }
 
 // int main(){
-
+//     int index;
 //     pGraph graph = gcreate(4);
 //     pHead head = addHead(graph, "Diana");
 //     pHead head2 = addHead(graph, "Bruce");
-
+//     pHead head3 = findHead(graph, "Bruce", &index);
+//     printf("\n~~~~%d~~~~\n",index);
 //     addAdjacent(head, "Hal");
 //     addAdjacent(head, "Bruce");
 //     addAdjacent(head, "Clark");
