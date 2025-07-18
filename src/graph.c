@@ -103,15 +103,17 @@ pHead findHead(pGraph GDS, char* name){
 
 void printGraph(pGraph graph){
     pHead curhead = graph->heads;
-    pVertex curvertex = curhead->list;
+    printf("\n");
     while(curhead!=NULL){
+        pVertex curvertex = curhead->list;
         printf("test");
-        // printf("~~%s ->", curhead->name);
+        printf("~~%s ->", curhead->name);
         while(curvertex!=NULL){
-            // printf("| %s->", curvertex->name);
+            printf("| %s->", curvertex->name);
             curvertex = curvertex->next;
         }
-        printf("\\");
+        printf("\\\n");
+
         curhead = curhead->nextHead;
     }
 }
@@ -120,8 +122,12 @@ int main(){
 
     pGraph graph = gcreate(4);
     pHead head = addHead(graph, "Diana");
-    printf("HEAD IN MAIND: %s", head->name);
-    addAdjacent(head, "Kurt");
+    pHead head2 = addHead(graph, "Bruce");
+
+    addAdjacent(head, "Hal");
+    addAdjacent(head, "Bruce");
+    addAdjacent(head, "Clark");
+    addAdjacent(head2, "Diana");
 
     printGraph(graph);
 
