@@ -85,46 +85,42 @@ void addAdjacent(pHead head, char* neighbor){
 }
 
 pHead findHead(pGraph GDS, char* name){
-    pHead current = GDS->heads;
-    int flag = 1;
-    while(strcmp(current->name,name)!=0 && flag){
-        current = current->nextHead;
-
-        if(current == NULL) {
-            printf("Head in this graph with name \"%s\" not found", name);
-            flag=0;
-        }
-        else{
+    pGraph g = GDS;
+    pHead current = g->heads;
+    while(current!=NULL){
+        if(strcmp(current->name,name)==0){
             printf("Head found: %s", current->name);
-            flag = 0;
+            return current;
         }
+        current = current->nextHead;
     }
+    printf("Head in this graph with name \"%s\" not found", name);
+    return NULL;
 
-    return current;
+    
 }
 
 pVertex findAdjacent(pHead headName, char* name){
-    pVertex current = headName->list;
-    int flag = 1;
-    while(strcmp(current->name,name)!=0 && flag){
+    pHead h = headName;
+    pVertex current = h->list;
+    
+    while(current!=NULL){
+        if(strcmp(current->name,name)==0){
+            printf("Neighbor found: %s", current->name);
+            return current;
+        }
         current = current->next;
-
-        if(current == NULL) {
-            flag=0;
-            printf("Adjacent of this head with name \"%s\" not found", name);
-        }
-        else {
-            printf("Adj Found: %s", current->name);
-        }
     }
-    return current;
+    printf("Neighbor in this head with name \"%s\" not found", name);
+    return NULL;
     
     
 }
 
 void printGraph(pGraph graph){
+
     pHead curhead = graph->heads;
-    printf("\n");
+    printf("loe\n");
     while(curhead!=NULL){
         pVertex curvertex = curhead->list;
         printf("test");
@@ -150,7 +146,10 @@ int main(){
     addAdjacent(head, "Clark");
     addAdjacent(head2, "Diana");
 
-    pHead check = findHead(graph, "Clark");
+    pHead check = findHead(graph, "Diana");
+    check = findHead(graph, "Clark");
+    pVertex check1 = findAdjacent(head, "Clark");
+    check1 = findAdjacent(head, "CLARK");
 
     printGraph(graph);
 
