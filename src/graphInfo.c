@@ -5,7 +5,7 @@
 
 // function to read, and process .txt file into graph representation (list or matrix)
 // change void later to idk Graph return type so its reusable in main
-void readInputFile(char input_filename[], GDS){
+void readInputFile(char input_filename[], pGraph GDS){
     //take the input
     //make into a graph representation
     
@@ -37,7 +37,7 @@ void readInputFile(char input_filename[], GDS){
 }
 
 // first output file
-void toTxt1VertexAndEdges(char output_filename[], GDS){
+void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
     /*
         G-SET.TXT contains:
         V(G)={Bruce,Clark,Diana,Hal}
@@ -45,7 +45,7 @@ void toTxt1VertexAndEdges(char output_filename[], GDS){
     */
 }
 
-void toTxt2VertexDegrees(char out_filename[], GDS){
+void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
     /*
         G-DEGREE.TXT contains
         Bruce 1
@@ -56,7 +56,7 @@ void toTxt2VertexDegrees(char out_filename[], GDS){
     */
 }
 
-void toTxt3AdjList(char out_filename[], GDS){
+void toTxt3AdjList(char out_filename[], pGraph GDS){
     /*
         G-LIST.TXT contains
         Diana->Hal->Bruce->Clark->\
@@ -75,18 +75,45 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         Bruce   1     0     0   0
         Hal     1     0     0   1
         Clark   1     0     1   0
-
-        Diana->Hal->Bruce->Clark->\
-        Bruce->Diana->\
-        Hal->Clark->Diana->\
-        Clark->Hal->Diana->\
     */
+
     pHead curHead = g->heads;
+    pHead targetHead;
     pVertex curVertex;
-    int size = g->nV,i = 0, j = 0;
-    int adjMatrix[g->nV];
+    int size = g->nV;
+    int i = 0, j = 0;
+    int adjMatrix[size][size];
+    //initialize with zeroes
+    memset(adjMatrix, 0, sizeof(adjMatrix[0][0])*size*size);
     while (curHead!=NULL){
         curVertex = curHead->list;
-        f
+        while(curVertex!=NULL){
+            targetHead = findHead(g, curVertex->name,&j);
+            //for debugging
+            printf("+%d+\n",j);
+            if(targetHead!=NULL || j!=-1){
+                adjMatrix[i][j] = 1;
+                adjMatrix[j][i] = 1;
+            }
+            curVertex = curVertex->next;
+            
+        }
+        curHead = curHead->nextHead;
+        i++;
     }
+    //for debugging of without text
+        // pHead c = g->heads;
+        // printf("  A B C D E F G H");
+        // printf("\n");
+        // for(int i=0; i<8;i++){
+        //     printf("%s ", c->name);
+        //     for(int j=0; j<8; j++){
+        //         printf("%d ", adjMatrix[i][j]);
+        //     }
+        //     c = c->nextHead;
+        //     printf("\n");
+        // }
+
+    //outputing to .txt file
+    
 }
