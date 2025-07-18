@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <crtdbg.h>
+//#include <crtdbg.h>
 
 typedef struct _queue
 {
@@ -90,13 +90,13 @@ void dq(queue *qalloc)
 
 //destroy queue
 
-/*debugging
 void qdestroy(queue *qalloc)
 {
 	while (*qalloc != NULL)
 		dq(qalloc);
 }
 
+/*debugging
 void qprtelem(queue lm)
 {
 	printf("Name: %s\n", lm->name);
