@@ -91,11 +91,26 @@ pHead findHead(pGraph GDS, char* name){
 
         if(current == NULL) {
             flag=0;
-            printf("Head not found");
+            printf("Head in this graph with name \"%s\" not found", name);
         }
     }
 
-    printf("%s", current->name);
+    printf("Head found: %s", current->name);
+    return current;
+}
+
+pVertex findAdjacent(pHead headName, char* name){
+    pVertex current = headName->list;
+    int flag = 1;
+    while(strcmp(current->name,name)!=0 && flag){
+        current = current->next;
+
+        if(current == NULL) {
+            flag=0;
+            printf("Adjacent of this head with name \"%s\" not found", name);
+        }
+    }
+    printf("Adj Found: %s", current->name);
     return current;
     
     
