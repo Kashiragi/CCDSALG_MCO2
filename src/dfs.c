@@ -15,7 +15,7 @@ void makemarks(marks *m)
 void addmark(marks *m, pHead v)
 {
 	void *ra;
-	ra = realloc(m->marks, ++m->count);
+	ra = realloc(m->marks, ++m->count * sizeof(pHead));
 	m->marks = !ra ? m->marks : ra;
 	m->marks[m->count - 1] = v;
 }
