@@ -44,10 +44,16 @@ void spop(stack *s, pHead *o)
 		{
 			if (1 == d->_NOMODIFY_COUNT)
 			{
+				*o = d->vertex;
+				d->_NOMODIFY_COUNT--;
+				d->next = NULL;
+			}
+			else
+			{
 				t = d->next;
 				*o = d->vertex;
-				free(d);
 				*s = t;
+				free(d);
 			}
 		}
 	}
