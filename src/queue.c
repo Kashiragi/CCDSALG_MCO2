@@ -23,7 +23,6 @@ void nq(queue *qalloc, queue *qtailref, char *name)
 {
 	int n;
 	queue q, t;
-	n = snprintf(NULL, 0, "%s", name) + 1;
 	// Preliminaries.
 	// Head of the queue and tail reference pointers both must not be NULL.
 	// Head of the queue must never point to NULL and must refer to the parent of the queue.
@@ -32,6 +31,7 @@ void nq(queue *qalloc, queue *qtailref, char *name)
 		// Dereference parameters to simplify the code.
 		q = *qalloc;
 		t = *qtailref;
+		n = snprintf(NULL, 0, "%s", name) + 1;
 		// The name of the head of the queue would be null iff. the queue is empty.
 		//
 		// If the head of the queue is not null, i.e. there is a name stored within it...
@@ -94,6 +94,7 @@ void qdestroy(queue *qalloc)
 {
 	while (*qalloc != NULL)
 		dq(qalloc);
+	qalloc = NULL;
 }
 
 /*debugging
