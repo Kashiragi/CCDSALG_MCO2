@@ -1,62 +1,46 @@
-#include "graph.c"
-#include "stack.c"
+#include "dfsutils.c"
 
-typedef struct {
-	int count;
-	pHead *marks;
-} marks;
-
-void makemarks(marks *m)
+void dfs(vertex *from)
 {
-	m->count = 0;
-	m->marks = NULL;
-}
+	int i;
+	vertex *_;
 
-void addmark(marks *m, pHead v)
-{
-	void *ra;
-	ra = realloc(m->marks, ++m->count * sizeof(pHead));
-	m->marks = !ra ? m->marks : ra;
-	m->marks[m->count - 1] = v;
-}
+	stack s;
+	marker m;
 
-int marked(marks m, pHead v)
-{
-	int i, r;
-	if (m.marks != NULL)
-		for (i = 0, r = 0; !r && i < m.count; i++)
-			r = m.marks[i] != v;
-	return r;
-}
+	snew(&s);
+	makemarker(&m);
 
-void dfs(pGraph g, pHead v)
-{
-	stack p;
-	marks q;
-	pHead ptr;
-	int index;
-	if (g != NULL && v != NULL)
+	spush(&s, from);
+	while (!snone(s) && s != NULL && m != NULL)
 	{
-		snew(&p);
-		makemarks(&q);
-		spush(&p, v);
-		while (!snone(p))
+		spop(&s, &_);
+		if (!marked(m, _))
 		{
-			spop(&p, &ptr);
-			printf("%s\n", ptr->name);
-			if (!marked(q, ptr))
-			{
-				addmark(&q, ptr);
-				do
-				{
-					ptr = findHead(g, ptr->name, &index);
-					if (!marked(q, ptr))
-					{
-						spush(&p, ptr);
-						addmark(&q, ptr);
-					}
-				} while (ptr);
-			}
+			addmark(&m, _);
+			printf("%s\n", _->name);
+			for (i = _->adj_count; i-- > 0;)
+				spush(&s, _->adjacents[i]);
 		}
 	}
 }
+
+
+//int main()
+//{
+//	stack s = NULL;
+//	marker m = NULL;
+//	vertex v1, v2, v3, v4;
+//
+//	vnew(&v1, "Bruce");
+//	vnew(&v2, "Diana");
+//	vnew(&v3, "Clark");
+//	vnew(&v4, "Hal");
+//
+//	vconnect(&v1, &v2); // B->D
+//	vconnect(&v2, &v3); // D->C
+//	vconnect(&v3, &v4); // C->H
+//	vconnect(&v4, &v2); // H->D
+//
+//	dfs(&v3);
+//}
