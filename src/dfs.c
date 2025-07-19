@@ -40,7 +40,6 @@ void dfs(pGraph g, pHead v)
 		snew(&p);
 		makemarks(&q);
 		spush(&p, v);
-		addmark(&q, v);
 		while (!snone(p))
 		{
 			spop(&p, &ptr);
