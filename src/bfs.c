@@ -21,8 +21,12 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
     queue q;
     queue qtail;
 
-    qnew(&q);
+    if((curHead = findHead(GDS, current, &index))==NULL || GDS->heads==NULL){
+        printf("Start doesn't exist");
+        return NULL;
+    }
 
+    qnew(&q);
     nq(&q, &qtail, start);
     // strcpy(visited[visitedCount], start);
     // printf("\nAdded to visited: %s\n", visited[visitedCount]);
