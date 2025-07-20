@@ -77,7 +77,7 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         Hal     1     0     0   1
         Clark   1     0     1   0
     */
-
+    FILE* outFile;
     pHead curHead = g->heads;
     pHead targetHead;
     pVertex curVertex;
@@ -91,7 +91,7 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         while(curVertex!=NULL){
             targetHead = findHead(g, curVertex->name,&j);
             //for debugging
-            printf("+%d+\n",j);
+            // printf("+%d+\n",j);
             if(targetHead!=NULL || j!=-1){
                 adjMatrix[i][j] = 1;
                 adjMatrix[j][i] = 1;
@@ -102,19 +102,33 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         curHead = curHead->nextHead;
         i++;
     }
-    //for debugging of without text
-        // pHead c = g->heads;
-        // printf("  A B C D E F G H");
-        // printf("\n");
-        // for(int i=0; i<8;i++){
-        //     printf("%s ", c->name);
-        //     for(int j=0; j<8; j++){
-        //         printf("%d ", adjMatrix[i][j]);
-        //     }
-        //     c = c->nextHead;
-        //     printf("\n");
-        // }
-
+    
     //outputing to .txt file
+    outFile = fopen(out_filename,"w");
+
+    curHead = g->heads;//resettign pointer
+    while(curHead!=NULL){
+        // printf("\t\t%s", curHead->name);
+        fprintf(outFile, "\t\t%s", curHead->name);
+        curHead = curHead->nextHead;
+    }
+
+    // printf("\n");
+    fprintf(outFile, "\n");
+
+    curHead = g->heads;//resetting pointer
+    for(int i=0; i<g->nV;i++){
+        // printf("%s", curHead->name);
+        fprintf(outFile, "%s", curHead->name);
+        for(int j=0; j<g->nV; j++){
+            // printf("\t\t%d", adjMatrix[i][j]);
+            fprintf(outFile, "\t\t%d", adjMatrix[i][j]);
+        }
+        curHead = curHead->nextHead;
+        // printf("\n");
+        fprintf(outFile,"\n");
+    }
+    fclose(outFile);
+    
     
 }
