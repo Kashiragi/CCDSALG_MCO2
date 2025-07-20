@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 //#include <crtdbg.h>
+#define MAX_ID_LEN 8
 
 typedef struct _queue
 {
@@ -65,19 +66,23 @@ void nq(queue *qalloc, queue *qtailref, char *name)
 }
 
 //dequeue
-void dq(queue *qalloc)
+void dq(queue *qalloc, char* out)
 {
 	queue b, t;
+	// printf("\nEntry dq\n");
 	if (*qalloc != NULL)
 	{
 		b = (*qalloc)->behind;
 		t = (*qalloc)->tail;
-		free((*qalloc)->name);
+
+		strcpy(out, (*qalloc)->name);
+		// printf("Out:%s",out);
+		// free((*qalloc)->name);
 		free(*qalloc);
 		if (b != NULL)
 			*qalloc = b,
 			(*qalloc)->front = NULL,
-			(*qalloc)->tail = NULL == (*qalloc)->behind ? b : t,
+			(*qalloc)->tail = (NULL == (*qalloc)->behind) ? b : t,
 			(*qalloc)->parent = true;
 		else
 			*qalloc = NULL;
@@ -92,8 +97,9 @@ void dq(queue *qalloc)
 
 void qdestroy(queue *qalloc)
 {
+	char out[MAX_ID_LEN+1];
 	while (*qalloc != NULL)
-		dq(qalloc);
+		dq(qalloc, out);
 	qalloc = NULL;
 }
 
