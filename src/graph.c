@@ -8,11 +8,12 @@
 //GDS = Graph Data Structure (either matrix or list)
 // create gds here
 // linked list
-#include <string.h>
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#define MAX_ID_LEN 8
+// #include <string.h>
+// #include <assert.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #define MAX_ID_LEN 8
+#include "globals.h"
 
 /**
  * HEAD_VERTEX - first name in the adjacency list per line

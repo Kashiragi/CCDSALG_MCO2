@@ -1,14 +1,6 @@
-#include "graph.c"
-#include "queue.c"
+#include "bfsutils.c"
 
-bool isVisited(char visited[][MAX_ID_LEN+1], int visitedCount, char* name){
-    for(int i = 0; i<visitedCount;i++){
-        if(strcmp(visited[i], name)==0){
-            return true;
-        }
-    }
-    return false;
-}
+
 char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
     char (*visited)[MAX_ID_LEN+1] = calloc(GDS->nV, sizeof(char[MAX_ID_LEN+1]));
     char (*temp)[MAX_ID_LEN+1] = calloc(GDS->nV, sizeof(char[MAX_ID_LEN+1]));
@@ -21,8 +13,8 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
     queue q;
     queue qtail;
 
-    if((curHead = findHead(GDS, current, &index))==NULL || GDS->heads==NULL){
-        printf("Start doesn't exist");
+    if((curHead = findHead(GDS, start, &index))==NULL || GDS->heads==NULL){
+        printf("Start doesn't exist???");
         return NULL;
     }
 
@@ -91,8 +83,8 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
 //     pHead head4 = addHead(graph1, "Clark");
 //     addAdjacent(head4, "Hal");
 //     addAdjacent(head4, "Diana");
-//     visited = bfs("Bruce", graph1);
-//     // printGraph(graph1);
+//     printGraph(graph1);
+//     visited = bfs("Clark", graph1);
 //     for (int i = 0; i<4; i++){
 //         printf("%s. ", visited[i]);
 //     }

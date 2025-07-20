@@ -1,9 +1,10 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-//#include <crtdbg.h>
-#include "graph.c"
+// #include <stdbool.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <assert.h>
+// //#include <crtdbg.h>
+// #include "graph.c"
+#include "globals.h"
 
 bool isVisited(char visited[][MAX_ID_LEN+1], int visitedCount, char* name){
     for(int i = 0; i<visitedCount;i++){

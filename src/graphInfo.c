@@ -1,6 +1,7 @@
 // contains code related to graph
 // #include <string.h>
-#include "graph.c"
+// #include "graph.c"
+#include "globals.h"
 
 
 // function to read, and process .txt file into graph representation (list or matrix)
