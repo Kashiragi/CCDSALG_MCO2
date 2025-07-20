@@ -16,18 +16,45 @@ typedef struct _stack
 	struct _stack *next;
 } *stack;
 
-typedef struct {
+typedef struct _marker {
 	int count;
 	vertex **marked;
 } *marker;
 
 // Vertex sort
 
-void ptrswap(vertex **a, vertex **b)
+void vptrswap(vertex **a, vertex **b)
 {
 	vertex *temp = *a;
 	*a = *b;
 	*b = temp;
+}
+
+void vnullref(vertex *v)
+{
+	int i, j, c;
+	vertex **adjs;
+
+	if (v->adjacents != NULL)
+	{
+		for (i = 0, c = 0; i < v->adj_count; i++)
+			c += (NULL == v->adjacents[i]);
+
+		adjs = malloc((v->adj_count - c) * sizeof(vertex *));
+		for (i = 0, j = 0; i < v->adj_count; i++)
+			if (v->adjacents[i] != NULL)
+				adjs[j++] = v->adjacents[i]; else;
+
+		v->adj_count -= c;
+		free(v->adjacents);
+		v->adjacents = NULL;
+		if (v->adj_count > 0)
+		{
+			v->adjacents = malloc(v->adj_count * sizeof(vertex *));
+			memcpy(v->adjacents, adjs, v->adj_count * sizeof(vertex *));
+		}
+		free(adjs);
+	}
 }
 
 void vsortadj(vertex **v)
@@ -41,8 +68,8 @@ void vsortadj(vertex **v)
 		min = i;
 		for (j = i + 1; j < p->adj_count; j++)
 			if (strcmp(p->adjacents[j]->name, p->adjacents[min]->name) < 0)
-				min = j;
-		ptrswap(&p->adjacents[min], &p->adjacents[i]);
+				min = j; else;
+		vptrswap(&p->adjacents[min], &p->adjacents[i]);
 	}
 }
 
@@ -89,6 +116,29 @@ void vconnect(vertex *v1, vertex *v2)
 		v2->adjacents[v2->adj_count - 1] = v1;
 		vsortadj(&v2);
 	}
+}
+
+void vremove(vertex *v1)
+{
+	int i, j;
+	if (v1->adj_count > 0)
+	{
+		for (i = 0; i < v1->adj_count; i++)
+		{
+			if (v1->adjacents[i] != v1)
+			{
+				for (j = 0; j < v1->adjacents[i]->adj_count; j++)
+					if (v1->adjacents[i]->adjacents[j] == v1)
+						v1->adjacents[i]->adjacents[j] = NULL; else;
+				vnullref(v1->adjacents[i]);
+			}
+		}
+		free(v1->adjacents);		
+	}
+	free(v1->name);
+	v1->adj_count = 0;
+	v1->adjacents = NULL;
+	v1->name = NULL;
 }
 
 // Stack operations
@@ -164,7 +214,7 @@ void sdest(stack *s)
 
 void makemarker(marker *m)
 {
-	*m = calloc(1, sizeof(*m));
+	*m = calloc(1, sizeof(struct _marker));
 	(*m)->count = 0;
 	(*m)->marked = NULL;
 }
@@ -185,4 +235,11 @@ int marked(marker m, vertex *v)
 		for (i = 0; !r && i < m->count; i++)
 			r = m->marked[i] == v;
 	return r;
+}
+
+void destroymarker(marker m)
+{
+	vertex **arr = m->marked;
+	free(m);
+	free(arr);
 }
