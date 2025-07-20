@@ -78,14 +78,23 @@ void dq(queue *qalloc, char* out)
 		strcpy(out, (*qalloc)->name);
 		// printf("Out:%s",out);
 		// free((*qalloc)->name);
-		free(*qalloc);
+		//free(*qalloc);
 		if (b != NULL)
-			*qalloc = b,
-			(*qalloc)->front = NULL,
-			(*qalloc)->tail = (NULL == (*qalloc)->behind) ? b : t,
+		{
+			free(*qalloc);
+			*qalloc = b;
+			(*qalloc)->front = NULL;
+			(*qalloc)->tail = (NULL == (*qalloc)->behind) ? b : t;
 			(*qalloc)->parent = true;
+		}
 		else
-			*qalloc = NULL;
+		{
+			(*qalloc)->behind = NULL;
+			(*qalloc)->front = NULL;
+			(*qalloc)->name = NULL;
+			(*qalloc)->parent = true;
+			(*qalloc)->tail = NULL;
+		}
 	}
 }
 
@@ -98,7 +107,7 @@ void dq(queue *qalloc, char* out)
 void qdestroy(queue *qalloc)
 {
 	char out[MAX_ID_LEN+1];
-	while (*qalloc != NULL)
+	while ((*qalloc)->name != NULL)
 		dq(qalloc, out);
 	qalloc = NULL;
 }
