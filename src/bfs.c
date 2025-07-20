@@ -30,7 +30,7 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
     // printf("\nAdded to dq: %s\n", temp[0]);
 
     
-    while(visitedCount<4){
+    while(q!=NULL && visitedCount<GDS->nV){
         printf("\nEntry bfs\n");
         dq(&q, current);
         printf("\nDeqd: %s\n", current);
@@ -40,54 +40,56 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
             strcpy(visited[visitedCount], current);
             printf("\nAdded to visited: %s\n", visited[visitedCount]);
             visitedCount++;
-        }
-        curHead = findHead(GDS, current, &index);
-        printf("\n!!Current head: %s\n", curHead->name);
-        curVertex = curHead->list;
+            for(int i = 0; i<GDS->nV;i++){
+                temp[i][0] = '\0';
+            }
+            
+            curHead = findHead(GDS, current, &index);
+            printf("\n!!Current head: %s\n", curHead->name);
+            curVertex = curHead->list;
 
-        while(curVertex!=NULL){
-            tempHead = findHead(GDS, curVertex->name, &index);
-            if(tempHead!=NULL){
-                strcpy(temp[index],curVertex->name);
-                printf("\n>>Current vertex added to temp: %s at index %d\n", temp[index], index);
+            while(curVertex!=NULL){
+                tempHead = findHead(GDS, curVertex->name, &index);
+                if(tempHead!=NULL){
+                    strcpy(temp[index],curVertex->name);
+                    printf("\n>>Current vertex added to temp: %s at index %d\n", temp[index], index);
+                }
+                curVertex = curVertex->next;
             }
-            curVertex = curVertex->next;
-        }
-        printf("%s", temp[1]);
-        for(int i = 0; i<GDS->nV; i++){
-            if(strcmp(temp[i],"\0")!=0 && !isVisited(visited,visitedCount,temp[i])){
-                nq(&q, &qtail, temp[i]);
-                printf("Enqd vertex: %s\n", temp[i]);
+            for(int i = 0; i<GDS->nV; i++){
+                if(temp[i][0]!='\0' && !isVisited(visited,visitedCount,temp[i])){
+                    nq(&q, &qtail, temp[i]);
+                    printf("Enqd vertex: %s\n", temp[i]);
+                }
             }
+        
         }
         // printf("\nincrement: %d\n", visitedCount);
         // visitedCount++;
         // printf("\nincrement: %d\n", visitedCount);
-        
-
     }
 
     return visited;
 }
 
-int main(){
-    char(*visited)[MAX_ID_LEN+1];
-    pGraph graph1 = gcreate(4);
-    pHead head1 = addHead(graph1, "Diana");
-    addAdjacent(head1, "Hal");
-    addAdjacent(head1, "Bruce");
-    addAdjacent(head1, "Clark");
-    pHead head2 = addHead(graph1, "Bruce");
-    addAdjacent(head2, "Diana");
-    pHead head3 = addHead(graph1, "Hal");
-    addAdjacent(head3, "Clark");
-    addAdjacent(head3, "Diana");
-    pHead head4 = addHead(graph1, "Clark");
-    addAdjacent(head4, "Hal");
-    addAdjacent(head4, "Diana");
-    visited = bfs("Clark", graph1);
-    // printGraph(graph1);
-    for (int i = 0; i<4; i++){
-        printf("%s. ", visited[i]);
-    }
-}
+// int main(){
+//     char(*visited)[MAX_ID_LEN+1];
+//     pGraph graph1 = gcreate(4);
+//     pHead head1 = addHead(graph1, "Diana");
+//     addAdjacent(head1, "Hal");
+//     addAdjacent(head1, "Bruce");
+//     addAdjacent(head1, "Clark");
+//     pHead head2 = addHead(graph1, "Bruce");
+//     addAdjacent(head2, "Diana");
+//     pHead head3 = addHead(graph1, "Hal");
+//     addAdjacent(head3, "Clark");
+//     addAdjacent(head3, "Diana");
+//     pHead head4 = addHead(graph1, "Clark");
+//     addAdjacent(head4, "Hal");
+//     addAdjacent(head4, "Diana");
+//     visited = bfs("Bruce", graph1);
+//     // printGraph(graph1);
+//     for (int i = 0; i<4; i++){
+//         printf("%s. ", visited[i]);
+//     }
+// }
