@@ -29,7 +29,7 @@ void dfs(vertex *from)
 	destroymarker(m);
 }
 
-
+/*
 int main()
 {
 	stack s = NULL;
@@ -55,3 +55,4 @@ int main()
 
 	_CrtDumpMemoryLeaks();
 }
+*/
