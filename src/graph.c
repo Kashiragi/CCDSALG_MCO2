@@ -3,6 +3,8 @@
  * @checker pls check
  */
 
+#ifndef GRAPH
+#define GRAPH
 //GDS = Graph Data Structure (either matrix or list)
 // create gds here
 // linked list
@@ -220,3 +222,5 @@ void printGraph(pGraph graph){
 //     printGraph(graph);
 
 // }
+
+#endif

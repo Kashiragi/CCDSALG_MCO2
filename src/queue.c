@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <assert.h>
 //#include <crtdbg.h>
-#define MAX_ID_LEN 8
+#include "graph.c"
 
 typedef struct _queue
 {
