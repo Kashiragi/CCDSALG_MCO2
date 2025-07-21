@@ -46,6 +46,9 @@ typedef struct UDGRAPH{
 
 
 pHead findHead(pGraph GDS, char* name, int *index){
+    //initial checking of values entered into the function
+    if (GDS == NULL || name == NULL) return NULL;
+    
     pGraph g = GDS;
     int i = 0;
     pHead current = g->heads;
@@ -79,6 +82,8 @@ pHead findHead(pGraph GDS, char* name, int *index){
 }
 
 pHead addHead(pGraph graph, char* vertexName){
+    if (graph == NULL || vertexName == NULL) return NULL;
+
     int index;
     // if head name doesn't exist in the graph yet, proceed
     // case sensitive so 
@@ -124,6 +129,8 @@ pHead addHead(pGraph graph, char* vertexName){
 pGraph gcreate(int V){
     // Allocate the graph reference and assign the number of vertices
     pGraph graph = malloc(sizeof(struct UDGRAPH));
+    if (graph == NULL) return NULL; 
+
     assert(graph->nV = V);
     // Allocate the heads list reference and set to NULL (no heads yet)
     assert(graph->heads = malloc(V*sizeof(struct ALIST_VERTEX*)));
@@ -137,8 +144,9 @@ pGraph gcreate(int V){
  * of a SPECIFIC HEAD. Adjacent of THIS HEAD only.
  */
 pVertex findAdjacent(pHead headName, char* name){
-    pHead h = headName;
-    pVertex current = h->list;
+    if(headName == NULL || name == NULL) return NULL;
+
+    pVertex current = headName->list;
     
     // Preliminaries
     // Current vertex or adjacent vertex pointer must not be null
@@ -161,6 +169,8 @@ pVertex findAdjacent(pHead headName, char* name){
     
 }
 void addAdjacent(pHead head, char* neighbor){
+    if(head == NULL || neighbor == NULL) return;
+
     // for comments sake, adjacent is the same as neighbor
     // if neighbor name OF THIS HEAD doesn't exist in the graph yet, proceed
     // case sensitive so 
@@ -168,6 +178,8 @@ void addAdjacent(pHead head, char* neighbor){
     if(findAdjacent(head,neighbor)==NULL){
         // Allocate new vertex reference and assign the name
         pVertex newVertex = malloc(sizeof(struct ALIST_VERTEX));
+        if (newVertex == NULL) return; 
+
         assert(strcpy(newVertex->name, neighbor));
         // set next to NULL
         newVertex->next = NULL;
@@ -206,6 +218,8 @@ void printGraph(pGraph graph){
         curhead = curhead->nextHead;
     }
 }
+
+
 
 // int main(){
 //     int index;
