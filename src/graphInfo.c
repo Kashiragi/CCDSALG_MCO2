@@ -1,49 +1,9 @@
 // contains code related to graph
 // #include <string.h>
 // #include "graph.c"
-#include "globals.h"
-typedef struct {
-    char vertex1[MAX_ID_LEN+1];
-    char vertex2[MAX_ID_LEN+1];
-}*Edge;
+// #include "globals.h"
+#include "graphInfo.h"
 
-int compareStrings(const void *a, const void *b) {
-    return strcmp((const char*)a, (const char*)b);
-}
-
-int compareEdges(const void *a, const void *b) {
-    Edge edgeA = (Edge)a;
-    Edge edgeB = (Edge)b;
-    
-    int cmp = strcmp(edgeA->vertex1, edgeB->vertex1);
-    if (cmp == 0) {
-        cmp = strcmp(edgeA->vertex2, edgeB->vertex2);
-    }
-    return cmp;
-}
-
-int countVertices(pGraph graph) {
-    if (graph == NULL) return 0;
-    return graph->nV;
-}
-
-void createOutputFileName(char* inputFileName, char* suffix, char* outputFileName) {
-    if (inputFileName == NULL || suffix == NULL || outputFileName == NULL) return;
-    
-    char* dotPos = strrchr(inputFileName, '.');
-    if (dotPos != NULL) {
-        int baseLength = dotPos - inputFileName;
-        strncpy(outputFileName, inputFileName, baseLength);
-        outputFileName[baseLength] = '\0';
-        
-        strcat(outputFileName, suffix);
-        strcat(outputFileName, ".TXT");
-    } else {
-        strcpy(outputFileName, inputFileName);
-        strcat(outputFileName, suffix);
-        strcat(outputFileName, ".TXT");
-    }
-}
 // function to read, and process .txt file into graph representation (list or matrix)
 // change void later to idk Graph return type so its reusable in main
 int readInputFile(char input_filename[], pGraph GDS){
@@ -360,6 +320,42 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         fprintf(outFile,"\n");
     }
     fclose(outFile);
+}
+
+int compareStrings(const void *a, const void *b) {
+    return strcmp((const char*)a, (const char*)b);
+}
+
+int compareEdges(const void *a, const void *b) {
+    Edge edgeA = (Edge)a;
+    Edge edgeB = (Edge)b;
     
+    int cmp = strcmp(edgeA->vertex1, edgeB->vertex1);
+    if (cmp == 0) {
+        cmp = strcmp(edgeA->vertex2, edgeB->vertex2);
+    }
+    return cmp;
+}
+
+int countVertices(pGraph graph) {
+    if (graph == NULL) return 0;
+    return graph->nV;
+}
+
+void createOutputFileName(char* inputFileName, char* suffix, char* outputFileName) {
+    if (inputFileName == NULL || suffix == NULL || outputFileName == NULL) return;
     
+    char* dotPos = strrchr(inputFileName, '.');
+    if (dotPos != NULL) {
+        int baseLength = dotPos - inputFileName;
+        strncpy(outputFileName, inputFileName, baseLength);
+        outputFileName[baseLength] = '\0';
+        
+        strcat(outputFileName, suffix);
+        strcat(outputFileName, ".TXT");
+    } else {
+        strcpy(outputFileName, inputFileName);
+        strcat(outputFileName, suffix);
+        strcat(outputFileName, ".TXT");
+    }
 }
