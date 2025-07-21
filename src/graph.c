@@ -219,7 +219,26 @@ void printGraph(pGraph graph){
     }
 }
 
-
+void freeGraph(pGraph graph) {
+    if (graph == NULL) return;
+    
+    pHead current = graph->heads;
+    while (current != NULL) {
+        pHead nextHead = current->nextHead;
+        
+        pVertex vertex = current->list;
+        while (vertex != NULL) {
+            pVertex nextVertex = vertex->next;
+            free(vertex);
+            vertex = nextVertex;
+        }
+        
+        free(current);
+        current = nextHead;
+    }
+    
+    free(graph);
+}
 
 // int main(){
 //     int index;
