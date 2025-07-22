@@ -1,8 +1,23 @@
-// contains code related to graph
-// #include <string.h>
-// #include "graph.c"
-// #include "globals.h"
+/**
+ * @file graphInfo.c
+ * @description Contains functions to load a graph from input file and export different text outputs.
+ * @author Queenie Salao, Kei Saguin
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "graphInfo.h"
+
+/**
+ * Reads and parses a graph from a formatted text file.
+ * Populates the graph structure with vertex and edge info.
+ *
+ * @author Queenie Salao
+ * @param input_filename Name of the input .TXT file.
+ * @param GDS Pointer to graph structure to fill.
+ * @return 1 if successful, 0 otherwise.
+ */
 
 // function to read, and process .txt file into graph representation (list or matrix)
 // change void later to idk Graph return type so its reusable in main
@@ -361,7 +376,14 @@ int countVertices(pGraph graph) {
     if (graph == NULL) return 0;
     return graph->nV;
 }
-
+/**
+ * Creates output file name by appending suffix to input filename.
+ *
+ * @author Queenie Salao
+ * @param inputFileName Original filename (e.g. G.TXT)
+ * @param suffix Suffix to add (e.g. -SET)
+ * @param outputFileName Output filename with suffix and .TXT
+ */
 void createOutputFileName(char* inputFileName, char* suffix, char* outputFileName) {
     if (inputFileName == NULL || suffix == NULL || outputFileName == NULL) return;
     
