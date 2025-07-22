@@ -250,7 +250,7 @@ void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
     fclose(file);
 }
 
-void toTxt3AdjList(char out_filename[], pGraph GDS){
+void toTxt3AdjList(char out_filename[], pGraph g){
     /*
         G-LIST.TXT contains
         Diana->Hal->Bruce->Clark->\
