@@ -23,7 +23,7 @@
 typedef struct ALIST_VERTEX{
     char name[MAX_ID_LEN+1];
     struct ALIST_VERTEX *next;
-} *pVertex;
+} *pVertex, Vertex;
 
 /**
  * HEAD_VERTEX - first name in the adjacency list per line
@@ -34,7 +34,7 @@ typedef struct HEAD_VERTEX{
     char name[MAX_ID_LEN+1];
     pVertex list;
     struct HEAD_VERTEX *nextHead;
-}*pHead;
+}*pHead, Head;
 /**
  * heads - list of heads 
  * nV - number of Vertices
@@ -42,7 +42,7 @@ typedef struct HEAD_VERTEX{
 typedef struct UDGRAPH{
     int nV;
     pHead heads;
-} *pGraph;
+} *pGraph, UDGraph;
 
 
 pHead findHead(pGraph GDS, char* name, int *index){
@@ -91,7 +91,7 @@ pHead addHead(pGraph graph, char* vertexName){
     // for this checking purpose, index is not used and is only a placeholder
     if(findHead(graph, vertexName, &index)==NULL){
         // Allocate a new head reference and assign the name
-        pHead newHead = malloc(sizeof(struct HEAD_VERTEX));
+        pHead newHead = malloc(sizeof(Head));
         assert(strcpy(newHead->name, vertexName));
         // set nextHead and list of adjacent to NULL
         newHead->nextHead = NULL;
@@ -128,12 +128,12 @@ pHead addHead(pGraph graph, char* vertexName){
  */
 pGraph gcreate(int V){
     // Allocate the graph reference and assign the number of vertices
-    pGraph graph = malloc(sizeof(struct UDGRAPH));
+    pGraph graph = malloc(sizeof(UDGraph));
     if (graph == NULL) return NULL; 
 
     assert(graph->nV = V);
     // Allocate the heads list reference and set to NULL (no heads yet)
-    assert(graph->heads = malloc(V*sizeof(struct ALIST_VERTEX*)));
+    assert(graph->heads = malloc(V*sizeof(Head*)));
     graph->heads = NULL;
 
     printf("Graph created");
@@ -177,7 +177,7 @@ void addAdjacent(pHead head, char* neighbor){
     // Juan=Juan (can't add) & Juan =/= JUAN (can add)
     if(findAdjacent(head,neighbor)==NULL){
         // Allocate new vertex reference and assign the name
-        pVertex newVertex = malloc(sizeof(struct ALIST_VERTEX));
+        pVertex newVertex = malloc(sizeof(Vertex));
         if (newVertex == NULL) return; 
 
         assert(strcpy(newVertex->name, neighbor));
@@ -208,12 +208,12 @@ void printGraph(pGraph graph){
     while(curhead!=NULL){
         pVertex curvertex = curhead->list;
         printf("test");
-        printf("~~%s ->", curhead->name);
+        printf("~~%s->", curhead->name);
         while(curvertex!=NULL){
-            printf("| %s->", curvertex->name);
+            printf("%s->", curvertex->name);
             curvertex = curvertex->next;
         }
-        printf("\\\n");
+        printf("end\n");
 
         curhead = curhead->nextHead;
     }
