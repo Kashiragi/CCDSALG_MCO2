@@ -3,10 +3,10 @@
 // #include "graph.c"
 #include "globals.h"
 
-typedef struct {
+typedef struct EDGE {
     char vertex1[MAX_ID_LEN+1];
     char vertex2[MAX_ID_LEN+1];
-}*Edge;
+}Edge, *pEdge;
 
 int compareStrings(const void *a, const void *b);
 

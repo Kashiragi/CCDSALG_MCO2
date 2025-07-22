@@ -131,7 +131,7 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
     }
     fprintf(file, "}\n");
     
-    Edge edges = malloc(vertexCount * vertexCount * sizeof(Edge));
+    pEdge edges = malloc(vertexCount * vertexCount * sizeof(Edge));
     if (edges == NULL) {
         printf("Memory allocation error for edges\n");
         for (int i = 0; i < vertexCount; i++) {
@@ -325,12 +325,14 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
 }
 
 int compareStrings(const void *a, const void *b) {
-    return strcmp((const char*)a, (const char*)b);
+    char **strA = (char**)a;
+    char **strB = (char**)b;
+    return strcmp(*strA, *strB);
 }
 
 int compareEdges(const void *a, const void *b) {
-    Edge edgeA = (Edge)a;
-    Edge edgeB = (Edge)b;
+    pEdge edgeA = (pEdge)a;
+    pEdge edgeB = (pEdge)b;
     
     int cmp = strcmp(edgeA->vertex1, edgeB->vertex1);
     if (cmp == 0) {
@@ -361,41 +363,41 @@ void createOutputFileName(char* inputFileName, char* suffix, char* outputFileNam
         strcat(outputFileName, ".TXT");
     }
 }
-// int main() {
-//     char inputFileName[100]; 
+int main() {
+    char inputFileName[100]; 
     
-//     printf("Input filename: ");
-//     if (scanf("%99s", inputFileName) != 1) { 
-//         printf("Error reading filename.\n");
-//         return 1;
-//     }
+    printf("Input filename: ");
+    if (scanf("%99s", inputFileName) != 1) { 
+        printf("Error reading filename.\n");
+        return 1;
+    }
     
-//     pGraph graph = gcreate(1); //!initial initialization
-//     // if (graph == NULL) {
-//     //     printf("Error creating graph.\n");
-//     //     return 1;
-//     // }
+    pGraph graph = gcreate(1); //!initial initialization
+    // if (graph == NULL) {
+    //     printf("Error creating graph.\n");
+    //     return 1;
+    // }
     
-//     if (!readInputFile(inputFileName, graph)) {
-//         printf("Error reading input file.\n");
-//         freeGraph(graph);
-//         return 1;
-//     }
-//     //debug
-//     printGraph(graph);
-//     printf("%d", graph->nV);
-//     //output
-//     char output1[150], output2[150]; 
-//     createOutputFileName(inputFileName, "-SET", output1);
-//     createOutputFileName(inputFileName, "-DEGREE", output2);
+    if (!readInputFile(inputFileName, graph)) {
+        printf("Error reading input file.\n");
+        freeGraph(graph);
+        return 1;
+    }
+    //debug
+    printGraph(graph);
+    printf("%d", graph->nV);
+    //output
+    char output1[150], output2[150]; 
+    createOutputFileName(inputFileName, "-SET", output1);
+    createOutputFileName(inputFileName, "-DEGREE", output2);
     
-//     // output 1 n 2
-//     toTxt1VertexAndEdges(output1, graph);
-//     toTxt2VertexDegrees(output2, graph);
+    // output 1 n 2
+    toTxt1VertexAndEdges(output1, graph);
+    toTxt2VertexDegrees(output2, graph);
     
-//     printf("Generated: %s, %s\n", output1, output2);
+    printf("Generated: %s, %s\n", output1, output2);
     
-//     freeGraph(graph);
+    freeGraph(graph);
     
-//     return 0;
-// } 
+    return 0;
+} 
