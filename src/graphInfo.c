@@ -363,41 +363,41 @@ void createOutputFileName(char* inputFileName, char* suffix, char* outputFileNam
         strcat(outputFileName, ".TXT");
     }
 }
-int main() {
-    char inputFileName[100]; 
+// int main() {
+//     char inputFileName[100]; 
     
-    printf("Input filename: ");
-    if (scanf("%99s", inputFileName) != 1) { 
-        printf("Error reading filename.\n");
-        return 1;
-    }
+//     printf("Input filename: ");
+//     if (scanf("%99s", inputFileName) != 1) { 
+//         printf("Error reading filename.\n");
+//         return 1;
+//     }
     
-    pGraph graph = gcreate(1); //!initial initialization
-    // if (graph == NULL) {
-    //     printf("Error creating graph.\n");
-    //     return 1;
-    // }
+//     pGraph graph = gcreate(1); //!initial initialization
+//     // if (graph == NULL) {
+//     //     printf("Error creating graph.\n");
+//     //     return 1;
+//     // }
     
-    if (!readInputFile(inputFileName, graph)) {
-        printf("Error reading input file.\n");
-        freeGraph(graph);
-        return 1;
-    }
-    //debug
-    printGraph(graph);
-    printf("%d", graph->nV);
-    //output
-    char output1[150], output2[150]; 
-    createOutputFileName(inputFileName, "-SET", output1);
-    createOutputFileName(inputFileName, "-DEGREE", output2);
+//     if (!readInputFile(inputFileName, graph)) {
+//         printf("Error reading input file.\n");
+//         freeGraph(graph);
+//         return 1;
+//     }
+//     //debug
+//     printGraph(graph);
+//     printf("%d", graph->nV);
+//     //output
+//     char output1[150], output2[150]; 
+//     createOutputFileName(inputFileName, "-SET", output1);
+//     createOutputFileName(inputFileName, "-DEGREE", output2);
     
-    // output 1 n 2
-    toTxt1VertexAndEdges(output1, graph);
-    toTxt2VertexDegrees(output2, graph);
+//     // output 1 n 2
+//     toTxt1VertexAndEdges(output1, graph);
+//     toTxt2VertexDegrees(output2, graph);
     
-    printf("Generated: %s, %s\n", output1, output2);
+//     printf("Generated: %s, %s\n", output1, output2);
     
-    freeGraph(graph);
+//     freeGraph(graph);
     
-    return 0;
-} 
+//     return 0;
+// } 
