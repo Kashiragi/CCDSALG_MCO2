@@ -50,7 +50,6 @@ int readInputFile(char input_filename[], pGraph GDS){
             char adjVertex[MAX_ID_LEN+1];
             strncpy(adjVertex, token, MAX_ID_LEN);
             adjVertex[MAX_ID_LEN] = '\0'; 
-            //TODO: commit first
             // pHead adjHead = findHead(GDS, adjVertex, &temp);
             // if (adjHead == NULL) {
                 addAdjacent(head, adjVertex);
@@ -94,7 +93,8 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
         return;
     }
     
-    char (*vertices)[MAX_ID_LEN+1] = calloc(vertexCount, sizeof(char[MAX_ID_LEN+1]));
+    char **vertices = malloc(vertexCount * sizeof(char*));
+    // char (*vertices)[MAX_ID_LEN+1] = calloc(vertexCount, sizeof(char[MAX_ID_LEN+1]));
     if (vertices == NULL) {
         printf("Memory allocation error\n");
         fclose(file);
