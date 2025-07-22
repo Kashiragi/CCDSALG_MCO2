@@ -9,6 +9,7 @@
 int readInputFile(char input_filename[], pGraph GDS){
     if (input_filename == NULL || GDS == NULL) return 0;
     
+    int temp;
     FILE *file = fopen(input_filename, "r");
     if (file == NULL) {
         printf("File %s not found.\n", input_filename);
@@ -21,6 +22,7 @@ int readInputFile(char input_filename[], pGraph GDS){
         fclose(file);
         return 0;
     }
+    GDS->nV = numVertices;
     
     char line[1000];
     fgets(line, sizeof(line), file); 
@@ -33,11 +35,11 @@ int readInputFile(char input_filename[], pGraph GDS){
         strncpy(headVertex, token, MAX_ID_LEN);
         headVertex[MAX_ID_LEN] = '\0'; 
         
-        pHead head = findHead(GDS, headVertex, NULL);
+        pHead head = findHead(GDS, headVertex, &temp);
         if (head == NULL) {
             head = addHead(GDS, headVertex);
             if (head == NULL) {
-                printf("Error adding vertex: %s\n", headVertex);
+                printf("Error adding head: %s\n", headVertex);
                 fclose(file);
                 return 0;
             }
@@ -48,19 +50,19 @@ int readInputFile(char input_filename[], pGraph GDS){
             char adjVertex[MAX_ID_LEN+1];
             strncpy(adjVertex, token, MAX_ID_LEN);
             adjVertex[MAX_ID_LEN] = '\0'; 
+            //TODO: commit first
+            // pHead adjHead = findHead(GDS, adjVertex, &temp);
+            // if (adjHead == NULL) {
+                addAdjacent(head, adjVertex);
+                // if (adjHead == NULL) {
+                    // printf("Error adding adj: %s\n", adjVertex);
+                    // fclose(file);
+                    // return 0;
+                // }
+            // }
             
-            pHead adjHead = findHead(GDS, adjVertex, NULL);
-            if (adjHead == NULL) {
-                adjHead = addHead(GDS, adjVertex);
-                if (adjHead == NULL) {
-                    printf("Error adding vertex: %s\n", adjVertex);
-                    fclose(file);
-                    return 0;
-                }
-            }
-            
-            addAdjacent(head, adjVertex);
-            addAdjacent(adjHead, headVertex);
+            // addAdjacent(head, adjVertex);
+            // addAdjacent(adjHead, headVertex);
             
             token = strtok(NULL, " \t\n");
         }
@@ -92,7 +94,7 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
         return;
     }
     
-    char *vertices = malloc(vertexCount * sizeof(char));
+    char (*vertices)[MAX_ID_LEN+1] = calloc(vertexCount, sizeof(char[MAX_ID_LEN+1]));
     if (vertices == NULL) {
         printf("Memory allocation error\n");
         fclose(file);
@@ -359,3 +361,41 @@ void createOutputFileName(char* inputFileName, char* suffix, char* outputFileNam
         strcat(outputFileName, ".TXT");
     }
 }
+// int main() {
+//     char inputFileName[100]; 
+    
+//     printf("Input filename: ");
+//     if (scanf("%99s", inputFileName) != 1) { 
+//         printf("Error reading filename.\n");
+//         return 1;
+//     }
+    
+//     pGraph graph = gcreate(1); //!initial initialization
+//     // if (graph == NULL) {
+//     //     printf("Error creating graph.\n");
+//     //     return 1;
+//     // }
+    
+//     if (!readInputFile(inputFileName, graph)) {
+//         printf("Error reading input file.\n");
+//         freeGraph(graph);
+//         return 1;
+//     }
+//     //debug
+//     printGraph(graph);
+//     printf("%d", graph->nV);
+//     //output
+//     char output1[150], output2[150]; 
+//     createOutputFileName(inputFileName, "-SET", output1);
+//     createOutputFileName(inputFileName, "-DEGREE", output2);
+    
+//     // output 1 n 2
+//     toTxt1VertexAndEdges(output1, graph);
+//     toTxt2VertexDegrees(output2, graph);
+    
+//     printf("Generated: %s, %s\n", output1, output2);
+    
+//     freeGraph(graph);
+    
+//     return 0;
+// } 
