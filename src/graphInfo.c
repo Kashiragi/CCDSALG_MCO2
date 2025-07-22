@@ -258,6 +258,22 @@ void toTxt3AdjList(char out_filename[], pGraph GDS){
         Hal->Clark->Diana->\
         Clark->Hal->Diana->\
     */
+    FILE* outFile;
+    pHead curhead = g->heads;
+    outFile = fopen(out_filename, "w");
+
+    while(curhead!=NULL){
+        pVertex curvertex = curhead->list;
+        fprintf(outFile, "%s->", curhead->name);
+        while(curvertex!=NULL){
+            fprintf(outFile,"%s->", curvertex->name);
+            curvertex = curvertex->next;
+        }
+        fprintf(outFile, "\\\n");
+        
+        curhead = curhead->nextHead;
+    }
+    fclose(outFile);
 
 }
 //@author Kei
