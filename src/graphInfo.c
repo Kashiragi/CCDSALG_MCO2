@@ -18,70 +18,74 @@
  * @param GDS Pointer to graph structure to fill.
  * @return 1 if successful, 0 otherwise.
  */
-
-// function to read, and process .txt file into graph representation (list or matrix)
-// change void later to idk Graph return type so its reusable in main
 int readInputFile(char input_filename[], pGraph GDS){
+    // Early return if param values are NULL
     if (input_filename == NULL || GDS == NULL) return 0;
     
+    // Variable declarations
     int temp;
+    int numVertices;
+    char line[1000];
+    char* token;
+    char headVertex[MAX_ID_LEN+1];
+    char adjVertex[MAX_ID_LEN+1];
+    pHead curHead;
+
     FILE *file = fopen(input_filename, "r");
+
+    // early returns if filename doesn't exist, or problems reading the .txt file
     if (file == NULL) {
         printf("File %s not found.\n", input_filename);
         return 0;
     }
-    
-    int numVertices;
     if (fscanf(file, "%d", &numVertices) != 1) {
         printf("Error reading number of vertices.\n");
         fclose(file);
         return 0;
     }
+    // assign scanned number of vertices
     GDS->nV = numVertices;
     
-    char line[1000];
+    // get next line after number of vertices line
     fgets(line, sizeof(line), file); 
     
+    // continue loop while the scanner can still get a line
     while (fgets(line, sizeof(line), file)) {
-        char *token = strtok(line, " \t\n");
+        // take the first token of the line based on delimiters " \t\n"
+        token = strtok(line, " \t\n");
         if (token == NULL) continue;
         
-        char headVertex[MAX_ID_LEN+1];
+        // copy scanned string into headVertex[]
         strncpy(headVertex, token, MAX_ID_LEN);
         headVertex[MAX_ID_LEN] = '\0'; 
         
-        pHead head = findHead(GDS, headVertex, &temp);
-        if (head == NULL) {
-            head = addHead(GDS, headVertex);
-            if (head == NULL) {
+        // check if head already exists
+        curHead = findHead(GDS, headVertex, &temp);
+        // if it doesn't exist (hence NULL)
+        if (curHead == NULL) {
+            // add to graph
+            curHead = addHead(GDS, headVertex);
+            // if after adding, it returns null
+            if (curHead == NULL) {
                 printf("Error adding head: %s\n", headVertex);
                 fclose(file);
                 return 0;
             }
         }
-        
+        // take the next token of the line based on delimiters
         token = strtok(NULL, " \t\n");
+        // continue loop until the line still has tokens and the 
+        // token is not "-1"
         while (token != NULL && strcmp(token, "-1") != 0) {
-            char adjVertex[MAX_ID_LEN+1];
+            // copy scanned string into adjVertex[]
             strncpy(adjVertex, token, MAX_ID_LEN);
             adjVertex[MAX_ID_LEN] = '\0'; 
-            // pHead adjHead = findHead(GDS, adjVertex, &temp);
-            // if (adjHead == NULL) {
-                addAdjacent(head, adjVertex);
-                // if (adjHead == NULL) {
-                    // printf("Error adding adj: %s\n", adjVertex);
-                    // fclose(file);
-                    // return 0;
-                // }
-            // }
-            
-            // addAdjacent(head, adjVertex);
-            // addAdjacent(adjHead, headVertex);
-            
+            // add adjacent to the head
+            addAdjacent(curHead, adjVertex);
+            // take the next token of the line based on delimiters
             token = strtok(NULL, " \t\n");
         }
     }
-    
     fclose(file);
     return 1;
 }
@@ -291,7 +295,15 @@ void toTxt3AdjList(char out_filename[], pGraph g){
     fclose(outFile);
 
 }
-//@author Kei
+
+/**
+ *  Takes the graph and converts it into an adjacency matrix (within this function only).
+ *  Prints the matrix out to the text file specified
+ * 
+ *  @author VL Kirsten Camille D. Saguin
+ *  @param out_filename the filename of the output file of the adjacency matrix
+ *  @param g the graph structure containing information about the inputted graph
+ */
 void toTxt4AdjMatrix(char out_filename[], pGraph g){
     /*
         G-MATRIX.TXT contains
@@ -301,6 +313,7 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         Hal     1     0     0   1
         Clark   1     0     1   0
     */
+    // Variables
     FILE* outFile;
     pHead curHead = g->heads;
     pHead targetHead;
@@ -308,59 +321,83 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
     int size = g->nV;
     int i = 0, j = 0;
     int adjMatrix[size][size];
-    //initialize with zeroes
+    // initialize with zeroes
     memset(adjMatrix, 0, sizeof(adjMatrix[0][0])*size*size);
+
+    // Check all heads
     while (curHead!=NULL){
         curVertex = curHead->list;
+
+        // Check all neighbors or adjacent vertices of this head
         while(curVertex!=NULL){
+            // Check if adjacent vertex exists as a head (it should be due to adj list)
+            // and get its index (j)
             targetHead = findHead(g, curVertex->name,&j);
-            //for debugging
-            // printf("+%d+\n",j);
+            // If the vertex exists as a head and j returns the index
             if(targetHead!=NULL || j!=-1){
+                // since undirected, both ways is marked as 1
                 adjMatrix[i][j] = 1;
                 adjMatrix[j][i] = 1;
             }
+            // move on to the next neighbor of this head
             curVertex = curVertex->next;
             
         }
+        // move on to the next head
         curHead = curHead->nextHead;
         i++;
     }
     
-    //outputing to .txt file
+    // === outputing to .txt file ===
     outFile = fopen(out_filename,"w");
-
-    curHead = g->heads;//resettign pointer
+    // resetting curhead to point to the first head of the graph
+    curHead = g->heads;
     while(curHead!=NULL){
-        // printf("\t\t%s", curHead->name);
+        // print the heads as column headers, in sequence
         fprintf(outFile, "\t\t%s", curHead->name);
         curHead = curHead->nextHead;
     }
 
-    // printf("\n");
     fprintf(outFile, "\n");
-
-    curHead = g->heads;//resetting pointer
-    for(int i=0; i<g->nV;i++){
-        // printf("%s", curHead->name);
+    // resetting curhead to point to the first head of the graph
+    curHead = g->heads;
+    for(int i=0; i<size;i++){
+        // print the head name as row header
         fprintf(outFile, "%s", curHead->name);
-        for(int j=0; j<g->nV; j++){
-            // printf("\t\t%d", adjMatrix[i][j]);
+        for(int j=0; j<size; j++){
+            // print all matrix values for that head (ith row)
             fprintf(outFile, "\t\t%d", adjMatrix[i][j]);
         }
+        // move on to the next head
         curHead = curHead->nextHead;
-        // printf("\n");
         fprintf(outFile,"\n");
     }
     fclose(outFile);
 }
 
+/**
+ *  Compares the value of two given strings. Helper function 
+ *  used for qsort in toTxt1VertexAndEdges.
+ *  
+ *  @author Queenie Salao
+ *  @param a address of the first string pointer
+ *  @param b address of the second string pointer
+ *  @return negative if *a < *b, positive if *a > *b, zero if equal
+ */
 int compareStrings(const void *a, const void *b) {
     char **strA = (char**)a;
     char **strB = (char**)b;
     return strcmp(*strA, *strB);
 }
-
+/**
+ *  Compares the value of two given strings. Helper function 
+ *  used for qsort in toTxt1VertexAndEdges.
+ *  
+ *  @author Queenie Salao
+ *  @param a address of the first edge pointer
+ *  @param b address of the second edge pointer
+ *  @return negative if *a < *b, positive if *a > *b, zero if equal
+ */
 int compareEdges(const void *a, const void *b) {
     pEdge edgeA = (pEdge)a;
     pEdge edgeB = (pEdge)b;
@@ -372,6 +409,11 @@ int compareEdges(const void *a, const void *b) {
     return cmp;
 }
 
+/**
+ *  Returns the number of vertices of the graph
+ *  @author Queenie Salao
+ *  @return the number of vertices of the graph 
+ */
 int countVertices(pGraph graph) {
     if (graph == NULL) return 0;
     return graph->nV;
