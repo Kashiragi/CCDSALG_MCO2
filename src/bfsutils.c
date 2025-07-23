@@ -6,6 +6,11 @@
 // #include "graph.c"
 #include "globals.h"
 
+/**
+ * 	Checks if the vertex (specifically, the names) have been visited
+ * 	@author VL Kirsten Camille Saguin
+ * 	@return true if visited; otherwise, false
+ */
 bool isVisited(char visited[][MAX_ID_LEN+1], int visitedCount, char* name){
     for(int i = 0; i<visitedCount;i++){
         if(strcmp(visited[i], name)==0){
@@ -14,6 +19,9 @@ bool isVisited(char visited[][MAX_ID_LEN+1], int visitedCount, char* name){
     }
     return false;
 }
+
+//Queue related
+//@author Kurt Laguerta
 typedef struct _queue
 {
 	bool parent;
