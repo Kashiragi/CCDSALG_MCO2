@@ -1,12 +1,15 @@
-// containing graph traversals
-// #include "graph.c" -> for graph implementation 
+/**
+ * @file traversal.c
+ * @description Contains function for processing the BFS traversal (not .txt yet)
+ * @author Kurt Anjo Laguerta, VL Kirsten Camille Saguin, 
+ */
 #include "globals.h"
 #include "bfs.c"
 #include "dfs.c"
 /**
  *  Traverses the graph using BFS or Breadth First Search starting from the start vertex
  *  and outputting the traversal path to a text file
- *  @author VL Kirsten Camille Saguin
+ *  @author Kei Saguin
  *  @param out_filename the file to output the result to
  *  @param GDS the graph containing vertex and edge information
  *  @param start_vertex the string containing the starting vertex of the traversal

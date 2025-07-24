@@ -1,14 +1,8 @@
-// #include <stdbool.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <assert.h>
-// //#include <crtdbg.h>
-// #include "graph.c"
 #include "globals.h"
 
 /**
  * 	Checks if the vertex (specifically, the names) have been visited
- * 	@author VL Kirsten Camille Saguin
+ * 	@author Kei Saguin
  * 	@return true if visited; otherwise, false
  */
 bool isVisited(char visited[][MAX_ID_LEN+1], int visitedCount, char* name){
@@ -115,12 +109,7 @@ void dq(queue *qalloc, char* out)
 	}
 }
 
-//queue full: no concept
-
-//queue empty: no concept
-
 //destroy queue
-
 void qdestroy(queue *qalloc)
 {
 	char out[MAX_ID_LEN+1];
@@ -128,59 +117,3 @@ void qdestroy(queue *qalloc)
 		dq(qalloc, out);
 	qalloc = NULL;
 }
-
-/*debugging
-void qprtelem(queue lm)
-{
-	printf("Name: %s\n", lm->name);
-	if (lm->front != NULL)
-		printf("Front: %s\n", lm->front->name);
-	else
-		printf("Front: none\n");
-	if (lm->behind != NULL)
-		printf("Behind: %s\n", lm->behind->name);
-	else
-		printf("Behind: none\n");
-	if (lm->tail != NULL)
-		printf("Queue tail: %s\n", lm->tail->name);
-	else
-		printf("Queue tail: none\n");
-	printf("\n");
-}
-
-void qprtall(queue q)
-{
-	queue pt = q;
-	while (pt != NULL)
-	{
-		qprtelem(pt);
-		pt = pt->behind;
-	}
-	printf("\nDone\n\n");
-}
-
-int main()
-{
-	queue q, tail;
-	qnew(&q);
-	nq(&q, &tail, "Sullivan");
-	qprtall(q);
-	nq(&q, &tail, "Hadal");
-	qprtall(q);
-	nq(&q, &tail, "Remani");
-	qprtall(q);
-	nq(&q, &tail, "Bisan");
-	qprtall(q);
-	nq(&q, &tail, "Alan");
-	qprtall(q);
-	dq(&q);
-	qprtall(q);
-	nq(&q, &tail, "Rubon");
-	qprtall(q);
-	dq(&q);
-	qprtall(q);
-	dq(&q);
-	qprtall(q);
-	qdestroy(&q);
-}
-*/
