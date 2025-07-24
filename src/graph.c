@@ -4,8 +4,7 @@
  * which in this case is an adjacency list
  * @author VL Kirsten Camille Saguin
  */
-#ifndef GRAPH
-#define GRAPH
+
 
 #include "graph.h"
 
@@ -154,23 +153,28 @@ void freeGraph(pGraph graph) {
     if (graph == NULL) return;
     
     pHead current = graph->heads;
+    pHead nextHead;
+    pVertex nextVertex;
     pVertex vertex;
     
     while (current != NULL) {
+        // store next head
+        nextHead = current->nextHead;
+
         vertex = current->list;
         while (vertex != NULL) {
+            // store next adjacent vertex of this head
+            nextVertex = vertex->next;
             // free neighbor vertices of this head
             free(vertex);
             // move to next neighbor
-            vertex = vertex->next;
+            vertex = nextVertex;
         }
         // free the head itself
         free(current);
         // move to next neighbor
-        current = current->nextHead;
+        current = nextHead;
     }
     // free graph itself
     free(graph);
 }
-
-#endif
