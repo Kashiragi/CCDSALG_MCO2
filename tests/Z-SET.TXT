@@ -1,0 +1,2 @@
+V(G)={Aaa,Bbb,Ccc,Ddd,Eee,Fff,Ggg,Hhh}
+E(G)={(Aaa,Bbb),(Aaa,Eee),(Aaa,Hhh),(Bbb,Ccc),(Ccc,Ggg),(Ddd,Eee),(Eee,Ggg),(Fff,Ggg),(Fff,Hhh),(Ggg,Hhh)}
