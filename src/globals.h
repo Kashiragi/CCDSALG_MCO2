@@ -7,6 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "graph.c"
+#include "graph.h"
 
 #endif
