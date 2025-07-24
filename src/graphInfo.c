@@ -1,23 +1,11 @@
 /**
  * @file graphInfo.c
  * @description Contains functions to load a graph from input file and export different text outputs.
- * @author Queenie Salao, Kei Saguin
+ * @author Queenie Salao, Kei Saguin, Kurt Laguerta
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "graphInfo.h"
 
-/**
- * Reads and parses a graph from a formatted text file.
- * Populates the graph structure with vertex and edge info.
- *
- * @author Queenie Salao
- * @param input_filename Name of the input .TXT file.
- * @param GDS Pointer to graph structure to fill.
- * @return 1 if successful, 0 otherwise.
- */
 int readInputFile(char input_filename[], pGraph GDS){
     // Early return if param values are NULL
     if (input_filename == NULL || GDS == NULL) return 0;
@@ -90,43 +78,48 @@ int readInputFile(char input_filename[], pGraph GDS){
     return 1;
 }
 
-// first output file
 void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
-    /*
-        G-SET.TXT contains:
-        V(G)={Bruce,Clark,Diana,Hal}
-        E(G)={(Bruce,Diana),(Clark,Diana),(Clark,Hal),(Diana,Hal)}
-    */
+    // Check if input parameters are valid (not NULL)
     if (output_filename == NULL || GDS == NULL) return;
     
+    // Open the output file in write mode
     FILE *file = fopen(output_filename, "w");
+    // Check if file opening was successful
     if (file == NULL) {
         printf("Error creating output file: %s\n", output_filename);
         return;
     }
     
+    // Get the total number of vertices in the graph
     int vertexCount = countVertices(GDS);
+    // If no vertices exist, write empty sets and exit
     if (vertexCount == 0) {
         fprintf(file, "V(G)={}\nE(G)={}");
         fclose(file);
         return;
     }
     
+    // Allocate memory for an array of string pointers to store vertex names
     char **vertices = malloc(vertexCount * sizeof(char*));
-    // char (*vertices)[MAX_ID_LEN+1] = calloc(vertexCount, sizeof(char[MAX_ID_LEN+1]));
+    // Check if memory allocation was successful
     if (vertices == NULL) {
         printf("Memory allocation error\n");
         fclose(file);
         return;
     }
     
+    // Initialize counter for array indexing
     int i = 0;
+    // Get pointer to the first head vertex in the graph
     pHead current = GDS->heads;  
+    // Loop through all head vertices in the graph
     while (current != NULL) {
+        // Allocate memory for each individual vertex name string
         vertices[i] = malloc((MAX_ID_LEN + 1) * sizeof(char));
+        // Check if memory allocation for this vertex name was successful
         if (vertices[i] == NULL) {
             printf("Memory allocation error\n");
-            // Free previously allocated memory
+            // Free previously allocated memory to prevent memory leaks
             for (int j = 0; j < i; j++) {
                 free(vertices[j]);
             }
@@ -134,25 +127,37 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
             fclose(file);
             return;
         }
+        // Copy the vertex name from the graph structure to our array
         strcpy(vertices[i], current->name);
+        // Move to the next index in our array
         i++;
+        // Move to the next head vertex in the graph
         current = current->nextHead;  
     }
     
+    // Sort the vertex names alphabetically using quicksort
     qsort(vertices, vertexCount, sizeof(char*), compareStrings);
     
+    // Write the beginning of the vertex set notation
     fprintf(file, "V(G)={");
+    // Loop through all sorted vertices
     for (int i = 0; i < vertexCount; i++) {
+        // Write the vertex name
         fprintf(file, "%s", vertices[i]);
+        // Add comma separator if not the last vertex
         if (i < vertexCount - 1) {
             fprintf(file, ",");
         }
     }
+    // Close the vertex set notation and add newline
     fprintf(file, "}\n");
     
+    // Allocate memory for edges array (worst case: complete graph has n*n edges)
     pEdge edges = malloc(vertexCount * vertexCount * sizeof(Edge));
+    // Check if memory allocation for edges was successful
     if (edges == NULL) {
         printf("Memory allocation error for edges\n");
+        // Clean up previously allocated vertex memory
         for (int i = 0; i < vertexCount; i++) {
             free(vertices[i]);
         }
@@ -161,96 +166,132 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
         return;
     }
     
+    // Initialize edge counter
     int edgeCount = 0;
+    // Reset current pointer to the first head vertex
     current = GDS->heads;  
+    // Loop through all head vertices to collect edges
     while (current != NULL) {
+        // Get pointer to the adjacency list of current vertex
         pVertex adj = current->list;  
+        // Loop through all adjacent vertices
         while (adj != NULL) {
             // Only add edge once (avoid duplicates in undirected graph)
+            // Use lexicographic comparison to ensure consistent ordering
             if (strcmp(current->name, adj->name) < 0) {
+                // Copy the first vertex name (lexicographically smaller)
                 strcpy(edges[edgeCount].vertex1, current->name);
+                // Copy the second vertex name (lexicographically larger)
                 strcpy(edges[edgeCount].vertex2, adj->name);
+                // Increment edge counter
                 edgeCount++;
             }
+            // Move to next adjacent vertex
             adj = adj->next;  
         }
+        // Move to next head vertex
         current = current->nextHead;
     }
     
+    // Sort edges alphabetically (first by vertex1, then by vertex2)
     qsort(edges, edgeCount, sizeof(Edge), compareEdges);
     
+    // Write the beginning of the edge set notation
     fprintf(file, "E(G)={");
+    // Loop through all sorted edges
     for (int i = 0; i < edgeCount; i++) {
+        // Write edge in format (vertex1,vertex2)
         fprintf(file, "(%s,%s)", edges[i].vertex1, edges[i].vertex2);
+        // Add comma separator if not the last edge
         if (i < edgeCount - 1) {
             fprintf(file, ",");
         }
     }
+    // Close the edge set notation
     fprintf(file, "}");
     
+    // Clean up: free all allocated memory for vertex names
     for (int i = 0; i < vertexCount; i++) {
         free(vertices[i]);
     }
+    // Free the array of vertex pointers
     free(vertices);
+    // Free the edges array
     free(edges);
+    // Close the output file
     fclose(file);
 }
 
-void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
-    /*
-        G-DEGREE.TXT contains
-        Bruce 1
-        Clark 2
-        Diana 3
-        Hal 2
 
-    */
+void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
+    // Initialize counter for array indexing sa loop
+    int i = 0;
+    // Get pointer to the first head vertex in the graph
+    pHead current = GDS->heads; 
+        // Get the total number of vertices in the graph
+    int vertexCount = countVertices(GDS);
+    // Define a local structure to hold vertex name and its degree
+    typedef struct {
+        char name[MAX_ID_LEN+1];    // Vertex name with null terminator space
+        int degree;                 // Number of connections (adjacent vertices)
+    } VertexDegree;
+    // Check if input parameters are valid (not NULL)
     if (out_filename == NULL || GDS == NULL) return;
-    
+    // Open the output file in write mode
     FILE *file = fopen(out_filename, "w");
-    if (file == NULL) {
+
+    // Check if file opening was successful
+    if (file == NULL) { // if null
         printf("Error creating output file: %s\n", out_filename);
         return;
-    }
-    
-    typedef struct {
-        char name[MAX_ID_LEN+1];
-        int degree;
-    } VertexDegree;
-    
-    int vertexCount = countVertices(GDS);
+    }    
+
+    // If no vertices exist, close file and exit
     if (vertexCount == 0) {
         fclose(file);
         return;
     }
     
+    // Allocate memory for array of VertexDegree structures
     VertexDegree *vertexDegrees = malloc(vertexCount * sizeof(VertexDegree));
+    // Check if memory allocation was successful
     if (vertexDegrees == NULL) {
         printf("Memory allocation error\n");
         fclose(file);
         return;
     }
     
-    int i = 0;
-    pHead current = GDS->heads;  
+    // Loop through all head vertices in the graph
     while (current != NULL) {
+        // Copy the vertex name into our structure array
         strcpy(vertexDegrees[i].name, current->name);
         
+        // Initialize degree counter for this vertex
         int degree = 0;
+        // Get pointer to the adjacency list of current vertex
         pVertex adj = current->list;  
+        // Count all adjacent vertices (this gives us the degree)
         while (adj != NULL) {
-            degree++;
-            adj = adj->next;  
+            degree++;               // Increment degree counter
+            adj = adj->next;        // Move to next adjacent vertex
         }
+        // Store the calculated degree in our structure array
         vertexDegrees[i].degree = degree;
+        // Move to next index in our array
         i++;
+        // Move to next head vertex in the graph
         current = current->nextHead;  
     }
     
     // Sort by vertex name using bubble sort (simple but works)
+    // nested loop >>
+    // bubblesort
     for (int i = 0; i < vertexCount - 1; i++) {
+        
         for (int j = i + 1; j < vertexCount; j++) {
+            // Compare vertex names lexicographically
             if (strcmp(vertexDegrees[i].name, vertexDegrees[j].name) > 0) {
+                // Swap the entire VertexDegree structures if out of order
                 VertexDegree temp = vertexDegrees[i];
                 vertexDegrees[i] = vertexDegrees[j];
                 vertexDegrees[j] = temp;
@@ -258,61 +299,55 @@ void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
         }
     }
     
+    // Write all vertex names and their degrees to the file
     for (int i = 0; i < vertexCount; i++) {
+        // Write vertex name followed by space and its degree
         fprintf(file, "%s %d", vertexDegrees[i].name, vertexDegrees[i].degree);
+        // Add newline if not the last vertex (avoids trailing newline)
         if (i < vertexCount - 1) {
             fprintf(file, "\n");
         }
     }
     
+    // Free the allocated memory for vertex degrees array
     free(vertexDegrees);
+    // Close 
     fclose(file);
 }
 
 void toTxt3AdjList(char out_filename[], pGraph g){
-    /*
-        G-LIST.TXT contains
-        Diana->Hal->Bruce->Clark->\
-        Bruce->Diana->\
-        Hal->Clark->Diana->\
-        Clark->Hal->Diana->\
-    */
+    // variable declaration
     FILE* outFile;
     pHead curhead = g->heads;
+    pVertex curvertex;
+
     outFile = fopen(out_filename, "w");
 
+    if (outFile == NULL) { // if null
+        printf("Error creating output file: %s\n", out_filename);
+        return;
+    }
+    
+    // go through all the heads
     while(curhead!=NULL){
-        pVertex curvertex = curhead->list;
+        curvertex = curhead->list;
+        // print the head name first
         fprintf(outFile, "%s->", curhead->name);
         while(curvertex!=NULL){
+            // print the suceeding heads, in order
             fprintf(outFile,"%s->", curvertex->name);
             curvertex = curvertex->next;
         }
+        // end of the list for this head
         fprintf(outFile, "\\\n");
-        
+        // move on to the next head
         curhead = curhead->nextHead;
     }
     fclose(outFile);
 
 }
 
-/**
- *  Takes the graph and converts it into an adjacency matrix (within this function only).
- *  Prints the matrix out to the text file specified
- * 
- *  @author VL Kirsten Camille D. Saguin
- *  @param out_filename the filename of the output file of the adjacency matrix
- *  @param g the graph structure containing information about the inputted graph
- */
 void toTxt4AdjMatrix(char out_filename[], pGraph g){
-    /*
-        G-MATRIX.TXT contains
-                Diana Bruce Hal Clark
-        Diana   0     1     1   1
-        Bruce   1     0     0   0
-        Hal     1     0     0   1
-        Clark   1     0     1   0
-    */
     // Variables
     FILE* outFile;
     pHead curHead = g->heads;
@@ -375,29 +410,13 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
     fclose(outFile);
 }
 
-/**
- *  Compares the value of two given strings. Helper function 
- *  used for qsort in toTxt1VertexAndEdges.
- *  
- *  @author Queenie Salao
- *  @param a address of the first string pointer
- *  @param b address of the second string pointer
- *  @return negative if *a < *b, positive if *a > *b, zero if equal
- */
+
 int compareStrings(const void *a, const void *b) {
     char **strA = (char**)a;
     char **strB = (char**)b;
     return strcmp(*strA, *strB);
 }
-/**
- *  Compares the value of two given strings. Helper function 
- *  used for qsort in toTxt1VertexAndEdges.
- *  
- *  @author Queenie Salao
- *  @param a address of the first edge pointer
- *  @param b address of the second edge pointer
- *  @return negative if *a < *b, positive if *a > *b, zero if equal
- */
+
 int compareEdges(const void *a, const void *b) {
     pEdge edgeA = (pEdge)a;
     pEdge edgeB = (pEdge)b;
@@ -409,23 +428,12 @@ int compareEdges(const void *a, const void *b) {
     return cmp;
 }
 
-/**
- *  Returns the number of vertices of the graph
- *  @author Queenie Salao
- *  @return the number of vertices of the graph 
- */
+
 int countVertices(pGraph graph) {
     if (graph == NULL) return 0;
     return graph->nV;
 }
-/**
- * Creates output file name by appending suffix to input filename.
- *
- * @author Queenie Salao
- * @param inputFileName Original filename (e.g. G.TXT)
- * @param suffix Suffix to add (e.g. -SET)
- * @param outputFileName Output filename with suffix and .TXT
- */
+
 void createOutputFileName(char* inputFileName, char* suffix, char* outputFileName) {
     if (inputFileName == NULL || suffix == NULL || outputFileName == NULL) return;
     
@@ -443,41 +451,3 @@ void createOutputFileName(char* inputFileName, char* suffix, char* outputFileNam
         strcat(outputFileName, ".TXT");
     }
 }
-// int main() {
-//     char inputFileName[100]; 
-    
-//     printf("Input filename: ");
-//     if (scanf("%99s", inputFileName) != 1) { 
-//         printf("Error reading filename.\n");
-//         return 1;
-//     }
-    
-//     pGraph graph = gcreate(1); //!initial initialization
-//     // if (graph == NULL) {
-//     //     printf("Error creating graph.\n");
-//     //     return 1;
-//     // }
-    
-//     if (!readInputFile(inputFileName, graph)) {
-//         printf("Error reading input file.\n");
-//         freeGraph(graph);
-//         return 1;
-//     }
-//     //debug
-//     printGraph(graph);
-//     printf("%d", graph->nV);
-//     //output
-//     char output1[150], output2[150]; 
-//     createOutputFileName(inputFileName, "-SET", output1);
-//     createOutputFileName(inputFileName, "-DEGREE", output2);
-    
-//     // output 1 n 2
-//     toTxt1VertexAndEdges(output1, graph);
-//     toTxt2VertexDegrees(output2, graph);
-    
-//     printf("Generated: %s, %s\n", output1, output2);
-    
-//     freeGraph(graph);
-    
-//     return 0;
-// } 
