@@ -1,3 +1,6 @@
+#ifndef GRAPH
+#define GRAPH
+
 #include "globals.h"
 
 /**
@@ -85,3 +88,5 @@ void addAdjacent(pHead head, char* neighbor);
  * @param graph the pointer of the graph to clear
  */
 void freeGraph(pGraph graph);
+
+#endif
