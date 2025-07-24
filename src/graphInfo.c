@@ -316,34 +316,7 @@ void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
 }
 
 void toTxt3AdjList(char out_filename[], pGraph g){
-    // variable declaration
-    FILE* outFile;
-    pHead curhead = g->heads;
-    pVertex curvertex;
-
-    outFile = fopen(out_filename, "w");
-
-    if (outFile == NULL) { // if null
-        printf("Error creating output file: %s\n", out_filename);
-        return;
-    }
     
-    // go through all the heads
-    while(curhead!=NULL){
-        curvertex = curhead->list;
-        // print the head name first
-        fprintf(outFile, "%s->", curhead->name);
-        while(curvertex!=NULL){
-            // print the suceeding heads, in order
-            fprintf(outFile,"%s->", curvertex->name);
-            curvertex = curvertex->next;
-        }
-        // end of the list for this head
-        fprintf(outFile, "\\\n");
-        // move on to the next head
-        curhead = curhead->nextHead;
-    }
-    fclose(outFile);
 
 }
 
