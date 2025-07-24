@@ -362,7 +362,7 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
     curHead = g->heads;
     while(curHead!=NULL){
         // print the heads as column headers, in sequence
-        fprintf(outFile, "\t\t%s", curHead->name);
+        fprintf(outFile, "\t%s", curHead->name);
         curHead = curHead->nextHead;
     }
 
@@ -374,7 +374,7 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         fprintf(outFile, "%s", curHead->name);
         for(int j=0; j<size; j++){
             // print all matrix values for that head (ith row)
-            fprintf(outFile, "\t\t%d", adjMatrix[i][j]);
+            fprintf(outFile, "\t%d", adjMatrix[i][j]);
         }
         // move on to the next head
         curHead = curHead->nextHead;
