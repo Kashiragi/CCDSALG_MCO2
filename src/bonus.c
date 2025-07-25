@@ -9,10 +9,13 @@ void processBonus(pGraph g1, pGraph g2){
     pHead g2_h = g2->heads;
     int g1V = g1->nV, g2V = g2->nV; 
     pVertex adj;
-    pEdge g1_e = malloc((g1V * (g1V-1))/2 * sizeof(Edge)); //n(n-1)/2
-    pEdge g2_e = malloc((g2V * (g2V-1))/2 * sizeof(Edge));
-    char (*final_v)[MAX_ID_LEN+1] = calloc(g2->nV, sizeof(char[MAX_ID_LEN+1]));
-    pEdge final_e = malloc((g2V * (g2V-1))/2 * sizeof(Edge));
+
+    
+    pEdge g1_e = (pEdge)calloc((g1V * (g1V-1))/2, sizeof(Edge)); //n(n-1)/2
+    pEdge g2_e = (pEdge)calloc((g2V * (g2V-1))/2, sizeof(Edge));
+    pEdge final_e = (pEdge)calloc((g2V * (g2V - 1)) / 2, sizeof(Edge));
+    char (*final_v)[MAX_ID_LEN+1] = (char (*)[MAX_ID_LEN+1])calloc(g2->nV, sizeof(char[MAX_ID_LEN+1]));
+
     int index, i = 0, e1count=0, e2count=0;
     int subvertices = 1, subedges = 1;
 
