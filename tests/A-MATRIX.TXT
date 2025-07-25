@@ -1,2 +1,2 @@
-		HELLO
-HELLO		0
+	HELLO
+HELLO	0
