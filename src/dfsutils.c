@@ -261,7 +261,7 @@ void vfromgraph(vertex **v, pGraph g)
 	pVertex adjacent;
 	if (g != NULL)
 	{
-		c = 0;
+		count = 0;
 		head = g->heads;
 		*v = malloc(g->nV * sizeof(vertex));
 		while (head != NULL)

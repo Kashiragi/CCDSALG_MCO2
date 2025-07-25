@@ -1,6 +1,6 @@
 #ifndef GLOBAL
 #define GLOBAL
-
+#define _CRT_SECURE_NO_WARNINGS // MSVC
 #define MAX_ID_LEN 8
 #include <stdbool.h>
 #include <stdio.h>

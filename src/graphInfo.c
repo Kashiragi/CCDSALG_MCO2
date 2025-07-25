@@ -352,10 +352,14 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
     pHead targetHead;
     pVertex curVertex;
     int size = g->nV;
-    int i = 0, j = 0;
-    int adjMatrix[size][size];
+    int i = 0, j = 0, a;
+    //int adjMatrix[size][size];
+    int **adjMatrix;
+    adjMatrix = malloc(size * sizeof(int *));
+    for (a = 0; a < size; a++)
+        adjMatrix[a] = malloc(size * sizeof(int));
     // initialize with zeroes
-    memset(adjMatrix, 0, sizeof(adjMatrix[0][0])*size*size);
+    //memset(adjMatrix, 0, sizeof(int)*size*size);
 
     // Check all heads
     while (curHead!=NULL){
@@ -406,6 +410,9 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
         fprintf(outFile,"\n");
     }
     fclose(outFile);
+    for (a = 0; a < size; a++)
+        free(adjMatrix[a]);
+    free(adjMatrix);
 }
 
 
