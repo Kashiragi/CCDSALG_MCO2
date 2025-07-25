@@ -75,6 +75,11 @@ void vsortadj(vertex **v)
 
 // Vertex operations
 
+/// <summary>
+/// Puts a new vertex in the graph.
+/// </summary>
+/// <param name="v">Pointer to a vertex variable. Ensure it is an unitialized vertex.</param>
+/// <param name="name">Name that labels the vertex.</param>
 void vnew(vertex *v, char *name)
 {
 	int len = 1 + snprintf(NULL, 0, "%s", name);
@@ -84,6 +89,12 @@ void vnew(vertex *v, char *name)
 	v->adjacents = NULL;
 }
 
+/// <summary>
+/// Checks if the given vertex key is adjacent to the given vertex v.
+/// </summary>
+/// <param name="v"></param>
+/// <param name="key"></param>
+/// <returns></returns>
 int vfindadj(vertex *v, vertex *key)
 {
 	int i, r;
@@ -92,6 +103,11 @@ int vfindadj(vertex *v, vertex *key)
 	return r;
 }
 
+/// <summary>
+/// Undirectedly onnects two vertices v1 and v2 together, regardless of parameter order.
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="v2"></param>
 void vconnect(vertex *v1, vertex *v2)
 {
 	if (!vfindadj(v1, v2) && !vfindadj(v2, v1))
@@ -117,6 +133,10 @@ void vconnect(vertex *v1, vertex *v2)
 	}
 }
 
+/// <summary>
+/// Deallocates a vertex.
+/// </summary>
+/// <param name="v1"></param>
 void vremove(vertex *v1)
 {
 	int i, j;
@@ -141,6 +161,7 @@ void vremove(vertex *v1)
 }
 
 // Stack operations
+// Derived from MCO1
 
 void snew(stack *s) { *s = calloc(1, sizeof(struct _stack)); }
 
@@ -254,6 +275,14 @@ int varrfind(vertex *arr, int count, char *key)
 	return f;
 }
 
+/// <summary>
+/// Converts a graph concept into a vertex concept.
+/// </summary>
+/// <param name="v">
+/// Where the set of vertices from the graph is stored into.
+/// Ensure this parameter is a variable assigned to NULL.
+/// </param>
+/// <param name="g">The graph to convert.</param>
 void vfromgraph(vertex **v, pGraph g)
 {
 	int count, head_index, adjacent_index;

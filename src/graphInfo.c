@@ -316,30 +316,43 @@ void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
 }
 
 void toTxt3AdjList(char out_filename[], pGraph g){
+    // Declarations
     FILE *out;
     pHead head;
     pVertex adjacent;
+    // Does nothing if graph is NULL
     if (g != NULL)
     {
+        // Does nothing if file cannot be created
         out = fopen(out_filename, "w");
         if (out != NULL)
         {
+            // Get first head
             head = g->heads;
-            while (head != NULL)
+            // If first head points to NULL, then the graph has no contents (\)
+            if (NULL == head)
+                fprintf(out, "\\");
+            // Otherwise, iterate up to the last head
+            else while (head != NULL)
             {
-                adjacent = head->list;
+                // Write the name stored in the head vertex
                 fprintf(out, "%s->", head->name);
+                // Iterate through its adjacents
+                adjacent = head->list;
                 while (adjacent != NULL)
                 {
                     fprintf(out, "%s->", adjacent->name);
                     adjacent = adjacent->next;
                 }
+                // Terminate adjacent list with a '\'
                 if (NULL == adjacent)
                     fprintf(out, "\\"); else;
+                // Write a new line and proceed to the next head vertex
                 head = head->nextHead;
                 if (head != NULL)
                     fprintf(out, "\n"); else;
             }
+            // Finish the file
             fclose(out);
         }
     }
