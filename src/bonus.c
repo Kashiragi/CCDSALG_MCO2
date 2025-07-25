@@ -118,17 +118,19 @@ void checkSubgraph(char out_filename[],pGraph g1, pGraph g2){
         }
     }
 
-    if(subvertices!=0 && subedges !=0) fprintf(file, "%c is a subgraph of %c", out_filename[2], out_filename[0]);
-    else fprintf(file, "%c is not a subgraph of %c", out_filename[2], out_filename[0]);
+    if(subvertices!=0 && subedges !=0) fprintf(file, "%c is a subgraph of %c.", out_filename[2], out_filename[0]);
+    else fprintf(file, "%c is not a subgraph of %c.", out_filename[2], out_filename[0]);
+    
     free(g1_e);
     free(g2_e);
+    
     free(final_v);
     fclose(file);
 }
 
 int main(){
     pGraph g1, g2;
-    int fileCheck1, fileCheck2;
+    FILE *fileCheck1, *fileCheck2;
     char firstGraph[120], secondGraph[120], out7[120];
 
     // ==== Prompt input files ====
@@ -157,7 +159,7 @@ int main(){
     }
 
     // ==== Create Filename for bonus e.g. First-Second-SUBGRAPH
-    createBonusFilename("G.txt", "K.txt", "-SUBGRAPH", out7);
+    createBonusFilename(firstGraph, secondGraph, "-SUBGRAPH", out7);
 
     // === Checking if second graph is a subgraph of the first graph ===
     checkSubgraph(out7, g1, g2);
