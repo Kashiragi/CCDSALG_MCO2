@@ -328,17 +328,19 @@ void toTxt3AdjList(char out_filename[], pGraph g){
             while (head != NULL)
             {
                 adjacent = head->list;
-                fprintf(out, "%s->%s->", head->name, adjacent->name);
+                fprintf(out, "%s->", head->name);
+                if (adjacent != NULL)
+                    fprintf(out, "%s->", adjacent->name); else;
                 while (adjacent != NULL)
                 {
                     fprintf(out, "%s->", adjacent->name);
                     adjacent = adjacent->next;
                 }
                 if (NULL == adjacent)
-                    fprintf(out, "\\");
+                    fprintf(out, "\\"); else;
                 head = head->nextHead;
                 if (head != NULL)
-                    fprintf(out, "\n");
+                    fprintf(out, "\n"); else;
             }
             fclose(out);
         }
