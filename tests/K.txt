@@ -1,0 +1,5 @@
+4 
+Hal    Jean Diana  -1 
+Diana  Hal Jean Bruce  -1 
+Bruce  Jean Diana  -1 
+Jean   Bruce Hal Diana -1
