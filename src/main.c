@@ -11,6 +11,7 @@
  * @author  Queenie Salao
  * @param   none
  * @return  int (0 on success, 1 on error)
+ * @tester  Kurt Laguerta, Queenie Salao, Kei Saguin
  */
 int main() {
     // ==== Variable Declarations ====

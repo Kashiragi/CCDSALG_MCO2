@@ -1,7 +1,8 @@
 /**
  * @file bfs.c
- * @description Contains function for processing the BFS traversal (not .txt yet)
+ * @details Contains function for processing the BFS traversal (not .txt yet)
  * @author VL Kirsten Camille Saguin
+ * @tester: Kurt Laguerta, Queenie Salao, Kei Saguin
  */
 #include "bfsutils.c"
 
@@ -76,6 +77,11 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
             }
         }
     }
+    // Cleanup
+    free(temp);
+    qdestroy(q);
+    qdestroy(qtail);
+
     // return the array containing the visited vertices, in sequence
     return visited;
 }

@@ -3,6 +3,7 @@
  * @details Contains functions and structs for the graph representation
  * which in this case is an adjacency list
  * @author VL Kirsten Camille Saguin
+ * @tester: Kurt Laguerta, Queenie Salao, Kei Saguin
  */
 
 

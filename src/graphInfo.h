@@ -59,6 +59,7 @@ int readInputFile(char input_filename[], pGraph GDS);
 /**
  *  Prints to a text file the vertices and edge, alphabetically, 
  *  based on the information from the graph.
+ *  @author Queenie Salao
  *  @param output_filename the file to output the result
  *  @param GDS Pointer to graph structure
 */
@@ -67,6 +68,7 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS);
 /**
  *  Prints to a text file the vertices and edge, alphabetically, 
  *  based on the information from the graph.
+ *  @author Queenie Salao
  *  @param output_filename the file to output the result
  *  @param GDS Pointer to graph structure
  * */
@@ -75,7 +77,7 @@ void toTxt2VertexDegrees(char out_filename[], pGraph GDS);
 /**
  *  Prints to a text file the adjacency list of the graph, 
  *  based on the information from the graph.
- *  @author Kurt Laguerta
+ *  @author Kurt Anjo Laguerta
  *  @param output_filename the file to output the result
  *  @param g Pointer to graph structure
  * */
@@ -85,7 +87,7 @@ void toTxt3AdjList(char out_filename[], pGraph GDS);
  *  Takes the graph and converts it into an adjacency matrix (within this function only).
  *  Prints the matrix out to the text file specified
  * 
- *  @author VL Kirsten Camille D. Saguin
+ *  @author VL Kirsten Camille Saguin
  *  @param out_filename the filename of the output file of the adjacency matrix
  *  @param g the graph structure containing information about the inputted graph
  * */

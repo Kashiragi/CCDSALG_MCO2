@@ -1,3 +1,9 @@
+/**
+ * @file bfsutils.c
+ * @details Contains helper functions for processing the BFS traversal (not .txt yet)
+ * @author VL Kirsten Camille Saguin, Kurt Laguerta
+ * @tester: Kurt Laguerta, Queenie Salao, Kei Saguin
+ */
 #include "globals.h"
 
 /**
@@ -23,14 +29,24 @@ typedef struct _queue
 	struct _queue *behind, *front, *tail;
 } *queue;
 
-//create queue
+/**
+ *  Creates/allocates a queue
+ * 	@author Kurt Laguerta
+ * 	@param qalloc queue pointer
+ */
 void qnew(queue *qalloc)
 {
 	assert(*qalloc = calloc(1, sizeof(struct _queue)));
 	(*qalloc)->parent = true;
 }
 
-//enqueue
+/**
+ *  Enqueues a name to the queue
+ * 	@author Kurt Laguerta
+ * 	@param qalloc queue pointer
+ * 	@param qtailref tail of the queue pointer
+ * 	@param name name to be added to the queue
+ */
 void nq(queue *qalloc, queue *qtailref, char *name)
 {
 	int n;
@@ -76,7 +92,12 @@ void nq(queue *qalloc, queue *qtailref, char *name)
 	}
 }
 
-//dequeue
+/**
+ *  Dequeues the top/head of the queue
+ * 	@author Kurt Laguerta
+ * 	@param qalloc queue pointer
+ * 	@param out name that is dequeued/removed
+ */
 void dq(queue *qalloc, char* out)
 {
 	queue b, t;
@@ -109,7 +130,11 @@ void dq(queue *qalloc, char* out)
 	}
 }
 
-//destroy queue
+/**
+ *  Destroys/unallocates queue
+ * 	@author Kurt Laguerta
+ * 	@param qalloc queue pointer
+ */
 void qdestroy(queue *qalloc)
 {
 	char out[MAX_ID_LEN+1];

@@ -1,7 +1,8 @@
 /**
  * @file graphInfo.c
- * @description Contains functions to load a graph from input file and export different text outputs.
+ * @description: Contains functions to load a graph from input file and export different text outputs.
  * @author Queenie Salao, VL Kirsten Camille Saguin, Kurt Anjo Laguerta
+ * @tester:  Kurt Laguerta, Queenie Salao, Kei Saguin
  */
 
 #include "globals.h"

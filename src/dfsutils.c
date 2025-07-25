@@ -1,6 +1,3 @@
-// #include "stdio.h"
-// #include "stdlib.h"
-// #include "string.h"
 #include "globals.h"
 typedef struct _vertex
 {
@@ -22,14 +19,24 @@ typedef struct _marker {
 } *marker;
 
 // Vertex sort
-
+/**
+ * 	Swaps two vertices. Helper function to sort vertices.
+ * 	@author Kurt Laguerta
+ * 	@param a first vertex
+ * 	@param b second vertex.
+ */
 void vptrswap(vertex **a, vertex **b)
 {
 	vertex *temp = *a;
 	*a = *b;
 	*b = temp;
 }
-
+/**
+ * Sets to null/cleans the references of the specified vertex's
+ * adjacent vertices
+ * @author Kurt Laguerta
+ * @param v pointer to the vertex whose adjacents should be cleaned/set to NULL
+ */
 void vnullref(vertex *v)
 {
 	int i, j, c;
@@ -57,6 +64,11 @@ void vnullref(vertex *v)
 	}
 }
 
+/**
+ * 	Sorts the specified vertex's adjacent vertices or neighbor vertices.
+ * 	@author Kurt Laguerta
+ * 	@param v pointer to the pointer to the vertex whose adjacent list should be sorted
+ */
 void vsortadj(vertex **v)
 {
 	int i, j, min;
@@ -74,12 +86,12 @@ void vsortadj(vertex **v)
 }
 
 // Vertex operations
-
-/// <summary>
-/// Puts a new vertex in the graph.
-/// </summary>
-/// <param name="v">Pointer to a vertex variable. Ensure it is an unitialized vertex.</param>
-/// <param name="name">Name that labels the vertex.</param>
+/**
+ * Puts a new vertex in the graph
+ * @author Kurt Laguerta
+ * @param v Pointer to a vertex variable. Ensure it is an unitialized vertex
+ * @param name Name that labels the vertex
+ */
 void vnew(vertex *v, char *name)
 {
 	int len = 1 + snprintf(NULL, 0, "%s", name);
@@ -89,12 +101,13 @@ void vnew(vertex *v, char *name)
 	v->adjacents = NULL;
 }
 
-/// <summary>
-/// Checks if the given vertex key is adjacent to the given vertex v.
-/// </summary>
-/// <param name="v"></param>
-/// <param name="key"></param>
-/// <returns></returns>
+/**
+ * Checks if the given vertex key is adjacent to the given vertex v.
+ * @author Kurt Laguerta
+ * @param v Pointer to a vertex variable. Ensure it is an unitialized vertex
+ * @param key the name to be searched
+ * @return a number if found; otherwise, 0
+ */
 int vfindadj(vertex *v, vertex *key)
 {
 	int i, r;
@@ -103,11 +116,12 @@ int vfindadj(vertex *v, vertex *key)
 	return r;
 }
 
-/// <summary>
-/// Undirectedly onnects two vertices v1 and v2 together, regardless of parameter order.
-/// </summary>
-/// <param name="v1"></param>
-/// <param name="v2"></param>
+/**
+ * Undirectedly connects two vertices v1 and v2 together, regardless of parameter order.
+ * @author Kurt Laguerta
+ * @param v1 vertex 1 to connect to v2
+ * @param v2 vertex 2 to connect to v1
+ */
 void vconnect(vertex *v1, vertex *v2)
 {
 	if (!vfindadj(v1, v2) && !vfindadj(v2, v1))
@@ -133,10 +147,11 @@ void vconnect(vertex *v1, vertex *v2)
 	}
 }
 
-/// <summary>
-/// Deallocates a vertex.
-/// </summary>
-/// <param name="v1"></param>
+/**
+ * Deallocates a vertex
+ * @author Kurt Laguerta
+ * @param v1 the vertex to be removed
+ */
 void vremove(vertex *v1)
 {
 	int i, j;
@@ -162,11 +177,15 @@ void vremove(vertex *v1)
 
 // Stack operations
 // Derived from MCO1
+// @author Kurt Laguerta
 
+/* Creates a stack */
 void snew(stack *s) { *s = calloc(1, sizeof(struct _stack)); }
 
+/* Check if stack is empty or not */
 int snone(stack s) { return 0 == s->_NOMODIFY_COUNT; }
 
+/* Push vertex h to top of stack*/
 void spush(stack *s, vertex *h)
 {
 	stack d, u;
@@ -191,6 +210,7 @@ void spush(stack *s, vertex *h)
 	}
 }
 
+/* Pop vertex from stack and store in o*/
 void spop(stack *s, vertex **o)
 {
 	stack d, t;
@@ -218,6 +238,7 @@ void spop(stack *s, vertex **o)
 	}
 }
 
+/* Destroy stack */
 void sdest(stack *s)
 {
 	vertex *_;
@@ -231,7 +252,12 @@ void sdest(stack *s)
 }
 
 // Marker operations
-
+// @author Kurt Laguerta
+/** 
+ * Create marker 
+ * @author Kurt Laguerta
+ * @param m pointer to the marker
+*/
 void makemarker(marker *m)
 {
 	*m = calloc(1, sizeof(struct _marker));
@@ -239,6 +265,12 @@ void makemarker(marker *m)
 	(*m)->marked = NULL;
 }
 
+/**
+ * Marks vertex as visited
+ * @author Kurt Laguerta
+ * @param m pointer to the marker
+ * @param v vertex to be marked visited
+ */
 void addmark(marker *m, vertex *v)
 {
 	void *ra;
@@ -248,6 +280,13 @@ void addmark(marker *m, vertex *v)
 	md->marked[md->count - 1] = v;
 }
 
+/**
+ * Checks if vertex has been marked visited
+ * @author Kurt Laguerta
+ * @param m marker with information of visited
+ * @param v vertex to be checked
+ * @returns a number if marked; otherwise, 0
+ */
 int marked(marker m, vertex *v)
 {
 	int i, r = 0;
@@ -257,6 +296,11 @@ int marked(marker m, vertex *v)
 	return r;
 }
 
+/**
+ * Destroy marker
+ * @author Kurt Laguerta
+ * @param m marker to be destroyed
+ */
 void destroymarker(marker m)
 {
 	vertex **arr = m->marked;
@@ -264,8 +308,10 @@ void destroymarker(marker m)
 	free(arr);
 }
 
-// Converter from pGraph to vertex
-
+/**
+ * Converts information from pGraph to vertex
+ * @author Kurt Laguerta
+ */
 int varrfind(vertex *arr, int count, char *key)
 {
 	int i, f;
@@ -275,14 +321,12 @@ int varrfind(vertex *arr, int count, char *key)
 	return f;
 }
 
-/// <summary>
-/// Converts a graph concept into a vertex concept.
-/// </summary>
-/// <param name="v">
-/// Where the set of vertices from the graph is stored into.
-/// Ensure this parameter is a variable assigned to NULL.
-/// </param>
-/// <param name="g">The graph to convert.</param>
+/**
+ * Converts a graph concept into a vertex concept.
+ * @author Kurt Laguerta
+ * @param v Where the set of vertices from the graph is stored into. Ensure this parameter is a variable assigned to NULL.
+ * @param g the graph to convert
+ */
 void vfromgraph(vertex **v, pGraph g)
 {
 	int count, head_index, adjacent_index;
