@@ -357,7 +357,7 @@ void toTxt4AdjMatrix(char out_filename[], pGraph g){
     int **adjMatrix;
     adjMatrix = malloc(size * sizeof(int *));
     for (a = 0; a < size; a++)
-        adjMatrix[a] = calloc(size, sizeof(int));
+        adjMatrix[a] = malloc(size * sizeof(int));
     // initialize with zeroes
     //memset(adjMatrix, 0, sizeof(int)*size*size);
 
