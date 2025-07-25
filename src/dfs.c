@@ -1,6 +1,5 @@
 #include "dfsutils.c"
 // #include "crtdbg.h"
-#include "graph.c" //remove once done
 
 void dfs(vertex *from, pGraph g)
 {
@@ -15,7 +14,7 @@ void dfs(vertex *from, pGraph g)
 	// storing all vertices
 	vertex *vertices = calloc(g->nV, sizeof(char[MAX_ID_LEN+1]));
 	
-	if((curHead = findHead(g, from->name, &index))==NULL || g->heads==NULL) return NULL;
+	if((curHead = findHead(g, from->name, &index))==NULL || g->heads==NULL) return;
 	
 	// since each head is a vertice, store that
 	while(curHead!=NULL){
@@ -64,7 +63,7 @@ void dfs(vertex *from, pGraph g)
 	destroymarker(m);
 }
 
-
+/*
 int main()
 {
 	stack s = NULL;
@@ -106,3 +105,4 @@ int main()
 
 	// _CrtDumpMemoryLeaks();
 }
+*/

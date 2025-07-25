@@ -6,7 +6,7 @@
  */
 
 
-#include "graph.h"
+#include "globals.h"
 
 pGraph gcreate(int V){
     // Allocate the graph reference and assign the number of vertices

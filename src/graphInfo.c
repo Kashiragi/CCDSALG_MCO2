@@ -4,7 +4,7 @@
  * @author Queenie Salao, VL Kirsten Camille Saguin, Kurt Anjo Laguerta
  */
 
-#include "graphInfo.h"
+#include "globals.h"
 
 int readInputFile(char input_filename[], pGraph GDS){
     // Early return if param values are NULL

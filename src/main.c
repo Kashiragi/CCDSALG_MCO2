@@ -1,4 +1,3 @@
-#include "globals.h"
 #include "graph.c"
 #include "graphInfo.c"
 #include "traversal.c"

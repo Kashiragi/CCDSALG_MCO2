@@ -60,7 +60,7 @@ void vnullref(vertex *v)
 void vsortadj(vertex **v)
 {
 	int i, j, min;
-	vertex *p, **temp;
+	vertex *p;
 	
 	p = *v;
 	for (i = 0; i < p->adj_count - 1; i++)

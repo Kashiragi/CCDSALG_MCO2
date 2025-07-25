@@ -8,5 +8,6 @@
 #include <string.h>
 #include <assert.h>
 #include "graph.h"
+#include "graphInfo.h"
 
 #endif
