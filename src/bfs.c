@@ -80,7 +80,6 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
     // Cleanup
     free(temp);
     qdestroy(&q);
-    qdestroy(&qtail);
 
     // return the array containing the visited vertices, in sequence
     return visited;
