@@ -316,8 +316,33 @@ void toTxt2VertexDegrees(char out_filename[], pGraph GDS){
 }
 
 void toTxt3AdjList(char out_filename[], pGraph g){
-    
-
+    FILE *out;
+    pHead head;
+    pVertex adjacent;
+    if (g != NULL)
+    {
+        out = fopen(out_filename, "w");
+        if (out != NULL)
+        {
+            head = g->heads;
+            while (head != NULL)
+            {
+                adjacent = head->list;
+                fprintf(out, "%s->%s->", head->name, adjacent->name);
+                while (adjacent != NULL)
+                {
+                    fprintf(out, "%s->", adjacent->name);
+                    adjacent = adjacent->next;
+                }
+                if (NULL == adjacent)
+                    fprintf(out, "\\");
+                head = head->nextHead;
+                if (head != NULL)
+                    fprintf(out, "\n");
+            }
+            fclose(out);
+        }
+    }
 }
 
 void toTxt4AdjMatrix(char out_filename[], pGraph g){
