@@ -5,9 +5,39 @@
 pEdge createEdges(pGraph g, int *edgeCount){
     pHead g1_h = g->heads;
     pVertex adj;
-    int g1V = g->nV;
-    pEdge g1_e = malloc((g1V * (g1V-1))/2 * sizeof(Edge));
-    int e1count = 0;
+
+    
+    pEdge g1_e = (pEdge)calloc((g1V * (g1V-1))/2, sizeof(Edge)); //n(n-1)/2
+    pEdge g2_e = (pEdge)calloc((g2V * (g2V-1))/2, sizeof(Edge));
+    pEdge final_e = (pEdge)calloc((g2V * (g2V - 1)) / 2, sizeof(Edge));
+    char (*final_v)[MAX_ID_LEN+1] = (char (*)[MAX_ID_LEN+1])calloc(g2->nV, sizeof(char[MAX_ID_LEN+1]));
+
+    int index, i = 0, e1count=0, e2count=0;
+    int subvertices = 1, subedges = 1;
+
+    // compare heads
+    while(g2_h!=NULL && i<g2V){
+        g1_h = findHead(g1,g2_h->name,&index);
+        if(g1_h!=NULL){
+            strcpy(final_v[i],g2_h->name); 
+            strcat(final_v[i]," +"); 
+            printf("%s\n", final_v[i]);
+            
+            i++;
+        }
+        else {
+            strcpy(final_v[i],g2_h->name);  
+            strcat(final_v[i]," -"); 
+            printf("%s\n", final_v[i]);
+            i++; 
+            subvertices = 0; // automatically
+        }
+        g2_h = g2_h->nextHead;
+    }
+// qsort(vertice names);
+    g1_h = g1->heads;
+    g2_h = g2->heads;
+// make edges of g1
     while(g1_h!=NULL){
         adj = g1_h->list;
         while(adj!=NULL){
