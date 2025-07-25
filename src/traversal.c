@@ -42,6 +42,7 @@ void toTxt6_DFS_Traversal(char out_filename[],pGraph GDS, char* start_vertex){
     {
         vfromgraph(&vertices, GDS);
         dfs(&vertices[varrfind(vertices, GDS->nV, start_vertex)], out);
+        fclose(out);
     }
 }
 
