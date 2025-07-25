@@ -1,6 +1,35 @@
 #include "dfsutils.c"
 // #include "crtdbg.h"
 
+void dfs(vertex *from, FILE *writeArea)
+{
+	int i;
+	vertex *_;
+
+	stack s;
+	marker m;
+
+	snew(&s);
+	makemarker(&m);
+
+	spush(&s, from);
+	while (!snone(s) && s != NULL && m != NULL)
+	{
+		spop(&s, &_);
+		if (!marked(m, _))
+		{
+			addmark(&m, _);
+			fprintf(writeArea, "%s ", _->name);
+			for (i = _->adj_count; i-- > 0;)
+				spush(&s, _->adjacents[i]);
+		}
+	}
+
+	sdest(&s);
+	destroymarker(m);
+}
+
+/*
 void dfs(vertex *from, pGraph g)
 {
 	int i, j=0, index;
@@ -62,6 +91,7 @@ void dfs(vertex *from, pGraph g)
 	sdest(&s);
 	destroymarker(m);
 }
+*/
 
 /*
 int main()

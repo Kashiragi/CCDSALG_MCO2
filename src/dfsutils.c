@@ -242,3 +242,43 @@ void destroymarker(marker m)
 	free(m);
 	free(arr);
 }
+
+// Converter from pGraph to vertex
+
+int varrfind(vertex *arr, int count, char *key)
+{
+	int i, f;
+	for (i = 0, f = 0; !f && i < count; i++)
+		f = 0 == strcmp(arr[i].name, key);
+	f = 0 == f ? -1 : i - 1;
+	return f;
+}
+
+void vfromgraph(vertex **v, pGraph g)
+{
+	int count, head_index, adjacent_index;
+	pHead head;
+	pVertex adjacent;
+	if (g != NULL)
+	{
+		c = 0;
+		head = g->heads;
+		*v = malloc(g->nV * sizeof(vertex));
+		while (head != NULL)
+		{
+			head_index = varrfind(*v, count, head->name);
+			adjacent = head->list;
+			if (-1 == head_index)
+				vnew(&(*v)[count++], head->name), head_index = count - 1; else;
+			while (adjacent != NULL)
+			{
+				adjacent_index = varrfind(*v, count, adjacent->name);
+				if (-1 == adjacent_index)
+					vnew(&(*v)[count++], adjacent->name), adjacent_index = count - 1; else;
+				vconnect(&(*v)[head_index], &(*v)[adjacent_index]);
+				adjacent = adjacent->next;
+			}
+			head = head->nextHead;
+		}
+	}
+}

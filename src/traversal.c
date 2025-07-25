@@ -35,5 +35,13 @@ void toTxt6_DFS_Traversal(char out_filename[],pGraph GDS, char* start_vertex){
         G-BFS.TXT contains
         Clark Diana Bruce Hal
     */
+    FILE *out;
+    vertex *vertices;
+    out = fopen(out_filename, "w");
+    if (out != NULL)
+    {
+        vfromgraph(&vertices, GDS);
+        dfs(&vertices[varrfind(vertices, GDS->nV, start_vertex)], out);
+    }
 }
 
