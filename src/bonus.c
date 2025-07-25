@@ -30,12 +30,12 @@ void createBonusFilename(char* parentGraph, char* subGraph, char* suffix, char* 
     char* dotPos2 = strrchr(subGraph, '.');
     if (dotPos1 != NULL) {
         int baseLength1 = dotPos1 - parentGraph;
+        int baseLength2 = dotPos2 - subGraph;
         strncpy(outputFileName, parentGraph, baseLength1);
         outputFileName[baseLength1] = '\0';
+        
         strcat(outputFileName,"-");
-        int baseLength2 = dotPos2 - subGraph;
         strncat(outputFileName,subGraph,  baseLength2);
-        outputFileName[baseLength1+baseLength2+1] = '\0';
         
         strcat(outputFileName, suffix);
         strcat(outputFileName, ".TXT");
@@ -118,7 +118,7 @@ int main(){
     pGraph g1 = gcreate(1), g2=gcreate(1);
     int read = readInputFile("G.txt",g1);
     read = readInputFile("K.txt",g2);
-    char* out = NULL;
+    char out[120];
     createBonusFilename("G.txt", "K.txt", "-SUBGRAPH", out);
     printf("%s",out);
     processBonus(out,g1, g2);
