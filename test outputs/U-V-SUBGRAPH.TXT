@@ -1,0 +1,10 @@
+Alex +
+Jensel -
+Joramm -
+Kei -
+Kurt -
+(Alex,Joramm) -
+(Jensel,Joramm) -
+(Jensel,Kurt) -
+(Kei,Kurt) -
+V is not a subgraph of U.
