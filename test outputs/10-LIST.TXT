@@ -1,0 +1,10 @@
+Lun->Fei->Star->Kotomi->\
+Fei->Luis->Hirako->Gan->Star->\
+Hirako->Rejina->Kotomi->Omoji->\
+Sana->Omoji->Star->Lun->Hirako->Rejina->\
+Omoji->Sana->Gan->Fei->\
+Luis->Rejina->Kotomi->Lun->Sana->\
+Gan->Sana->Star->Rejina->\
+Star->Kotomi->Rejina->Luis->Hirako->Sana->Omoji->Lun->\
+Kotomi->Lun->Star->Luis->Gan->Sana->\
+Rejina->Omoji->Gan->Fei->Lun->Star->\

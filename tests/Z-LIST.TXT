@@ -1,8 +1,0 @@
-Hhh->Aaa->Fff->Ggg->\
-Fff->Ggg->Hhh->\
-Ggg->Ccc->Eee->Fff->Hhh->\
-Eee->Aaa->Ddd->Ggg->\
-Ddd->Eee->\
-Ccc->Bbb->Ggg->\
-Bbb->Aaa->Ccc->\
-Aaa->Bbb->Eee->Hhh->\

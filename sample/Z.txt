@@ -1,0 +1,12 @@
+8
+Hhh Aaa Fff Ggg -1
+Fff Ggg Hhh -1
+Ggg Ccc Eee Fff Hhh -1
+Eee Aaa Ddd Ggg -1
+Ddd Eee -1
+Ccc Bbb Ggg -1
+Bbb Aaa Ccc -1 
+Aaa Bbb Eee Hhh -1
+
+
+

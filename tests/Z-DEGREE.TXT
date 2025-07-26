@@ -1,8 +1,0 @@
-Aaa 3
-Bbb 2
-Ccc 2
-Ddd 1
-Eee 3
-Fff 2
-Ggg 4
-Hhh 3

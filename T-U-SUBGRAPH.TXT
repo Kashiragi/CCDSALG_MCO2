@@ -1,0 +1,11 @@
+Adrian +
+Alex +
+Jerald +
+Monica +
+(Adrian,Alex) -
+(Adrian,Jerald) +
+(Adrian,Monica) +
+(Alex,Jerald) +
+(Alex,Monica) +
+(Jerald,Monica) +
+U is not a subgraph of T.

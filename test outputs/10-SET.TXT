@@ -1,0 +1,2 @@
+V(G)={Fei,Gan,Hirako,Kotomi,Luis,Lun,Omoji,Rejina,Sana,Star}
+E(G)={(Fei,Gan),(Fei,Hirako),(Fei,Luis),(Fei,Star),(Gan,Rejina),(Gan,Sana),(Gan,Star),(Hirako,Kotomi),(Hirako,Omoji),(Hirako,Rejina),(Kotomi,Luis),(Kotomi,Lun),(Kotomi,Sana),(Kotomi,Star),(Luis,Lun),(Luis,Rejina),(Luis,Sana),(Lun,Star),(Omoji,Sana),(Rejina,Star),(Sana,Star)}

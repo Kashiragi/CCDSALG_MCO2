@@ -1,0 +1,2 @@
+V(G)={Bruce,CLARK,Clark,Diana,bruce}
+E(G)={(Bruce,Diana),(CLARK,bruce),(Clark,Diana),(Clark,bruce),(Diana,bruce)}

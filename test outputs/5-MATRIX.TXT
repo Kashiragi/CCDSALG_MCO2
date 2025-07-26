@@ -1,0 +1,6 @@
+	Diana	Clark	bruce	Bruce	CLARK
+Diana	0	1	1	1	0
+Clark	1	0	1	0	0
+bruce	1	1	0	0	1
+Bruce	1	0	0	0	0
+CLARK	0	0	1	0	0

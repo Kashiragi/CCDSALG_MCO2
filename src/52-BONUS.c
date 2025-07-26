@@ -177,7 +177,7 @@ void checkSubgraph(char out_filename[],pGraph g1, pGraph g2){
     free(g1_e);
     free(g2_e);
     for(int j = 0; j < g2V; j++) {
-    free(final_v[j]);
+        free(final_v[j]);
     }
     free(final_v);
 

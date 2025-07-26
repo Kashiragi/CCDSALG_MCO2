@@ -1,0 +1,6 @@
+5
+Diana bruce Clark Bruce -1
+Clark Diana bruce -1
+bruce Diana Clark CLARK -1
+Bruce Diana -1
+CLARK bruce -1

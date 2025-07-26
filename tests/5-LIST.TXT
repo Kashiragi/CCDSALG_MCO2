@@ -1,5 +1,0 @@
-Diana->bruce->Clark->Bruce->\
-Clark->Diana->bruce->\
-bruce->Diana->Clark->CLARK->\
-Bruce->Diana->\
-CLARK->bruce->\

@@ -1,2 +1,0 @@
-V(G)={A,B,C,D,E,F,G,H}
-E(G)={(A,B),(A,E),(A,H),(B,C),(C,G),(D,E),(E,G),(F,G),(F,H),(G,H)}
