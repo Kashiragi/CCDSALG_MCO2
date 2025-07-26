@@ -94,7 +94,7 @@ void checkSubgraph(char out_filename[],pGraph g1, pGraph g2){
         subvertices = 1, subedges = 1;
     pEdge g1_e = malloc((g1V * (g1V-1))/2 * sizeof(Edge)), //n(n-1)/2
           g2_e = malloc((g2V * (g2V-1))/2 * sizeof(Edge));
-    char **final_v = malloc(g2V * sizeof(char[MAX_ID_LEN+1]));
+    char **final_v = malloc(g2V * sizeof(char*));
     FILE* file;
 
 
@@ -107,7 +107,7 @@ void checkSubgraph(char out_filename[],pGraph g1, pGraph g2){
     while(g2_h!=NULL && i<g2V){
         // Check if the head exists in the graph
         g1_h = findHead(g1,g2_h->name,&index);
-        final_v[i] = malloc(sizeof(char)* (MAX_ID_LEN+1));
+        final_v[i] = malloc(sizeof(char) * (MAX_ID_LEN+1));
 
         // if exists, +
         if(g1_h!=NULL){
@@ -176,6 +176,9 @@ void checkSubgraph(char out_filename[],pGraph g1, pGraph g2){
     // Cleanup
     free(g1_e);
     free(g2_e);
+    for(int j = 0; j < g2V; j++) {
+    free(final_v[j]);
+    }
     free(final_v);
 
     fclose(file);
