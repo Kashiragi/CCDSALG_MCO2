@@ -63,7 +63,7 @@ int readInputFile(char input_filename[], pGraph GDS);
  *  @param output_filename the file to output the result
  *  @param GDS Pointer to graph structure
 */
-void toTxt1VertexAndEdges(char output_filename[], pGraph GDS);
+void toTxt1VertexAndEdges(char output_filename[], pGraph GDS, char* graphName);
 
 /**
  *  Prints to a text file the vertices and edge, alphabetically, 
