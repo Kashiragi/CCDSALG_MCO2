@@ -36,7 +36,7 @@ char (*bfs(char* start, pGraph GDS))[MAX_ID_LEN+1]{
     nq(&q, &qtail, start);
 
     // continue the loop while the q is not empty and the visitedCount is not equal to the vertices count of the graph
-    while(q!=NULL && visitedCount<GDS->nV)
+    while(q!=NULL && q->name!=NULL && visitedCount<GDS->nV)
     {
         // dequeue the head, transfer to current variable
         dq(&q, current);
