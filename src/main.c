@@ -43,6 +43,10 @@ int main() {
         return 1;
     }
     fclose(fileCheck);
+	// ==== Extract Graph Name from Input Filename ====
+	char graphName[MAX_ID_LEN + 1];  // Holds graph name (e.g., A from A.TXT)
+	getGraphNameFromFilename(inputFile, graphName);
+
 
     // ==== Step 2: Build Graph ====
     G = gcreate(1);  // Initial dummy value; true size set by readInputFile
@@ -57,7 +61,7 @@ int main() {
     createOutputFileName(inputFile, "-LIST", out3);     // Adjacency list
     createOutputFileName(inputFile, "-MATRIX", out4);   // Adjacency matrix
 
-    toTxt1VertexAndEdges(out1, G);
+    toTxt1VertexAndEdges(out1, G, graphName);
     toTxt2VertexDegrees(out2, G);
     toTxt3AdjList(out3, G);
     toTxt4AdjMatrix(out4, G);
