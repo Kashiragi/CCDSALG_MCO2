@@ -79,7 +79,7 @@ int readInputFile(char input_filename[], pGraph GDS){
     return 1;
 }
 
-void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
+void toTxt1VertexAndEdges(char output_filename[], pGraph GDS, char* graphName){
     // Check if input parameters are valid (not NULL)
     if (output_filename == NULL || GDS == NULL) return;
     
@@ -94,11 +94,12 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
     // Get the total number of vertices in the graph
     int vertexCount = countVertices(GDS);
     // If no vertices exist, write empty sets and exit
-    if (vertexCount == 0) {
-        fprintf(file, "V(G)={}\nE(G)={}");
+	if (vertexCount == 0) {
+        fprintf(file, "V(%s)={}\nE(%s)={}\n", graphName, graphName);
         fclose(file);
         return;
     }
+
     
     // Allocate memory for an array of string pointers to store vertex names
     char **vertices = malloc(vertexCount * sizeof(char*));
@@ -140,7 +141,7 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
     qsort(vertices, vertexCount, sizeof(char*), compareStrings);
     
     // Write the beginning of the vertex set notation
-    fprintf(file, "V(G)={");
+    fprintf(file, "V(%s)={", graphName);
     // Loop through all sorted vertices
     for (int i = 0; i < vertexCount; i++) {
         // Write the vertex name
@@ -198,7 +199,7 @@ void toTxt1VertexAndEdges(char output_filename[], pGraph GDS){
     qsort(edges, edgeCount, sizeof(Edge), compareEdges);
     
     // Write the beginning of the edge set notation
-    fprintf(file, "E(G)={");
+    fprintf(file, "E(%s)={", graphName);
     // Loop through all sorted edges
     for (int i = 0; i < edgeCount; i++) {
         // Write edge in format (vertex1,vertex2)
@@ -447,10 +448,20 @@ int compareEdges(const void *a, const void *b) {
     return cmp;
 }
 
-
 int countVertices(pGraph graph) {
     if (graph == NULL) return 0;
     return graph->nV;
+}
+
+void getGraphNameFromFilename(char *filename, char *graphName) {
+    char *base = strrchr(filename, '/'); // handles path like ./data/A.TXT
+    base = (base) ? base + 1 : filename;
+
+    strncpy(graphName, base, MAX_ID_LEN);
+    graphName[MAX_ID_LEN] = '\0';
+
+    char *dot = strchr(graphName, '.');
+    if (dot) *dot = '\0'; // strip file extension
 }
 
 void createOutputFileName(char* inputFileName, char* suffix, char* outputFileName) {
